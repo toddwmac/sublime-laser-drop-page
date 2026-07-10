@@ -78,7 +78,7 @@ function render(manifest, pages) {
     ? `<ul class="cards">\n${pages.map((p) => {
         const desc = p.description ? `      <span class="card-desc">${esc(p.description)}</span>\n` : '';
         return `    <li class="card">
-      <a class="card-link" href="${esc(p.href)}">
+      <a class="card-link" href="${esc(p.href)}" target="_blank" rel="noopener noreferrer">
         <span class="card-title">${esc(p.title)}</span>
 ${desc}        <span class="card-href">${esc(p.href)}</span>
       </a>
