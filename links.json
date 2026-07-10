@@ -1,0 +1,11 @@
+{
+  "title": "Sublime Laser Drop",
+  "description": "Index of pages in this directory.",
+  "pages": [
+    {
+      "title": "Example page",
+      "href": "example.html",
+      "description": "Describe what this page is. Delete this entry or replace it with your own."
+    }
+  ]
+}

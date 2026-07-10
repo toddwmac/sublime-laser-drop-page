@@ -1,0 +1,10 @@
+{
+  "name": "sublime-laser-drop-page",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static index page listing all pages in this directory.",
+  "scripts": {
+    "build": "node build-index.mjs"
+  }
+}
