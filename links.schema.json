@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://toddwmac.github.io/sublime-laser-drop-page/links.schema.json",
+  "title": "Sublime Laser Drop — link file",
+  "description": "Source manifest consumed by build-index.mjs to generate index.html.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Site title shown in the page header and browser tab. Defaults to 'Index' if omitted.",
+      "default": "Index"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional subtitle shown under the title."
+    },
+    "pages": {
+      "type": "array",
+      "description": "Ordered list of pages. Order is preserved in the generated index.",
+      "items": { "$ref": "#/$defs/page" }
+    }
+  },
+  "required": ["pages"],
+  "$defs": {
+    "page": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Display title. Defaults to the file name (without extension) if omitted."
+        },
+        "href": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path to the page, relative to the repo root (e.g. \"pricing.html\", \"guides/intro.html\")."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional one-line description shown under the title."
+        }
+      },
+      "required": ["href"]
+    }
+  }
+}

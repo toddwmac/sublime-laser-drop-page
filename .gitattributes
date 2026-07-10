@@ -1,0 +1,11 @@
+# Normalize line endings to LF for cross-platform consistency (matches CI on Ubuntu).
+* text=auto eol=lf
+
+# Binary assets — never normalize
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.webp binary
+*.ico  binary
+*.pdf  binary

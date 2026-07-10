@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build index",
+      "detail": "Regenerate index.html from links.json (node build-index.mjs)",
+      "type": "shell",
+      "command": "node build-index.mjs",
+      "group": { "kind": "build", "isDefault": true },
+      "presentation": { "reveal": "silent", "panel": "shared" },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "json.schemas": [
+    {
+      "fileMatch": ["links.json"],
+      "url": "./links.schema.json"
+    }
+  ],
+  "files.eol": "\n"
+}
