@@ -1,0 +1,2214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Applied AI Labs — Prospecting System Builder</title>
+
+  <style>
+    :root {
+      --bg: #151311;
+      --bg-soft: #1b1815;
+      --panel: #211e1a;
+      --panel-2: #29241f;
+      --panel-3: #312a24;
+      --line: #40372f;
+      --line-soft: #342e28;
+      --text: #f2ece4;
+      --muted: #b9ada2;
+      --faint: #8c8076;
+      --accent: #d97757;
+      --accent-light: #efa17e;
+      --green: #9cc8ac;
+      --yellow: #e1bd78;
+      --red: #df8d86;
+      --shadow: 0 18px 55px rgba(0, 0, 0, .22);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 80% 0%, rgba(217, 119, 87, .10), transparent 30rem),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    button,
+    input,
+    textarea,
+    select {
+      font: inherit;
+    }
+
+    button,
+    a {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 74px;
+      padding: 14px 30px;
+      border-bottom: 1px solid var(--line-soft);
+      background: rgba(21, 19, 17, .91);
+      backdrop-filter: blur(18px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 240px;
+    }
+
+    .brand-mark {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(239, 161, 126, .55);
+      border-radius: 12px;
+      color: var(--accent-light);
+      background: linear-gradient(145deg, rgba(217, 119, 87, .24), rgba(217, 119, 87, .04));
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: -.08em;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 14px;
+      letter-spacing: -.01em;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 2px;
+      color: var(--faint);
+      font-size: 11px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .save-status {
+      margin-right: 8px;
+      color: var(--faint);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .btn {
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 8px 12px;
+      color: var(--text);
+      background: var(--panel-2);
+      font-size: 12px;
+      transition: .18s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-1px);
+    }
+
+    .btn.primary {
+      border-color: var(--accent);
+      color: #221712;
+      background: var(--accent);
+      font-weight: 700;
+    }
+
+    .btn.ghost {
+      background: transparent;
+    }
+
+    .btn.danger:hover {
+      border-color: var(--red);
+      color: var(--red);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 242px minmax(0, 1fr);
+      max-width: 1600px;
+      margin: 0 auto;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 74px;
+      align-self: start;
+      height: calc(100vh - 74px);
+      padding: 30px 18px 24px 30px;
+      border-right: 1px solid var(--line-soft);
+      overflow-y: auto;
+    }
+
+    .sidebar-heading {
+      margin: 0 0 13px;
+      color: var(--faint);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .section-nav {
+      display: grid;
+      gap: 3px;
+    }
+
+    .section-nav a {
+      display: grid;
+      grid-template-columns: 24px 1fr auto;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 9px;
+      border-radius: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      text-decoration: none;
+      transition: .18s ease;
+    }
+
+    .section-nav a:hover {
+      color: var(--text);
+      background: var(--panel);
+    }
+
+    .section-nav a span:first-child {
+      color: var(--faint);
+      font-size: 10px;
+    }
+
+    .nav-status {
+      color: var(--faint);
+      font-size: 11px;
+    }
+
+    .nav-status.ready {
+      color: var(--green);
+    }
+
+    .progress-card {
+      margin-top: 28px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      background: linear-gradient(145deg, rgba(41, 36, 31, .9), rgba(33, 30, 26, .8));
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .progress-label strong {
+      color: var(--text);
+    }
+
+    .progress-track {
+      height: 5px;
+      overflow: hidden;
+      border-radius: 10px;
+      background: var(--line);
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+      transition: width .3s ease;
+    }
+
+    .privacy-note {
+      margin-top: 18px;
+      color: var(--faint);
+      font-size: 10px;
+      line-height: 1.55;
+    }
+
+    main {
+      min-width: 0;
+      padding: 56px clamp(25px, 5vw, 88px) 90px;
+    }
+
+    .hero {
+      max-width: 900px;
+      margin-bottom: 38px;
+    }
+
+    .eyebrow {
+      color: var(--accent-light);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      letter-spacing: -.035em;
+    }
+
+    h1 {
+      max-width: 850px;
+      margin-top: 12px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 5vw, 70px);
+      font-weight: 400;
+      line-height: 1.04;
+    }
+
+    .hero-copy {
+      max-width: 710px;
+      margin: 22px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    .hero-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 22px;
+      padding: 9px 12px;
+      border: 1px solid rgba(217, 119, 87, .35);
+      border-radius: 8px;
+      color: var(--accent-light);
+      background: rgba(217, 119, 87, .07);
+      font-size: 11px;
+    }
+
+    .hero-note::before {
+      content: "●";
+      font-size: 9px;
+    }
+
+    .gate-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      margin: 28px 0 46px;
+    }
+
+    .gate {
+      display: block;
+      min-height: 140px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      color: inherit;
+      background: var(--panel);
+      text-decoration: none;
+      transition: .2s ease;
+    }
+
+    .gate:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .gate.complete {
+      border-color: rgba(156, 200, 172, .46);
+    }
+
+    .gate-number {
+      display: flex;
+      justify-content: space-between;
+      color: var(--faint);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .12em;
+    }
+
+    .gate-state {
+      color: var(--yellow);
+      letter-spacing: 0;
+    }
+
+    .gate.complete .gate-state {
+      color: var(--green);
+    }
+
+    .gate h3 {
+      margin-top: 17px;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .gate p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.5;
+    }
+
+    .section {
+      scroll-margin-top: 100px;
+      margin: 0 auto 28px;
+      max-width: 1110px;
+      padding: 28px;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      background: rgba(33, 30, 26, .78);
+      box-shadow: var(--shadow);
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 23px;
+    }
+
+    .section-heading h2 {
+      margin-top: 6px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 30px;
+      font-weight: 400;
+    }
+
+    .section-heading p {
+      max-width: 690px;
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section-tag {
+      flex: 0 0 auto;
+      padding: 5px 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      color: var(--faint);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .callout {
+      margin: 0 0 22px;
+      padding: 14px 16px;
+      border-left: 2px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      color: var(--muted);
+      background: rgba(217, 119, 87, .06);
+      font-size: 12px;
+    }
+
+    .callout strong {
+      color: var(--accent-light);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 17px;
+    }
+
+    .grid.three {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .full {
+      grid-column: 1 / -1;
+    }
+
+    .field {
+      min-width: 0;
+    }
+
+    label,
+    .field-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    label small,
+    .field-label small {
+      display: block;
+      margin-top: 3px;
+      color: var(--faint);
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      outline: none;
+      color: var(--text);
+      background: rgba(20, 18, 16, .75);
+      font-size: 13px;
+      transition: .18s ease;
+    }
+
+    input,
+    select {
+      height: 39px;
+      padding: 0 11px;
+    }
+
+    textarea {
+      min-height: 102px;
+      padding: 10px 11px;
+      resize: vertical;
+      line-height: 1.55;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #736860;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(217, 119, 87, .11);
+    }
+
+    select option {
+      color: var(--text);
+      background: var(--panel);
+    }
+
+    .choice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .source-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .choice,
+    .source-choice {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      min-width: 0;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: rgba(20, 18, 16, .48);
+      transition: .18s ease;
+    }
+
+    .choice:hover,
+    .source-choice:hover {
+      border-color: var(--accent);
+    }
+
+    .choice input,
+    .source-choice input {
+      width: auto;
+      height: auto;
+      margin-top: 3px;
+      accent-color: var(--accent);
+    }
+
+    .choice span,
+    .source-choice span {
+      display: block;
+      min-width: 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .choice strong,
+    .source-choice strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--text);
+      font-size: 12px;
+    }
+
+    .source-choice small {
+      display: block;
+      color: var(--faint);
+      font-size: 10px;
+      line-height: 1.45;
+    }
+
+    .field + .field {
+      margin-top: 0;
+    }
+
+    .subheading {
+      margin: 25px 0 11px;
+      color: var(--accent-light);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 1260px;
+      border-collapse: collapse;
+      font-size: 11px;
+    }
+
+    th {
+      padding: 11px 9px;
+      border-bottom: 1px solid var(--line);
+      color: var(--faint);
+      background: var(--panel-2);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .07em;
+      text-align: left;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 8px;
+      border-bottom: 1px solid var(--line-soft);
+      vertical-align: top;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    td input,
+    td select {
+      min-width: 125px;
+      height: 34px;
+      padding: 0 8px;
+      font-size: 11px;
+    }
+
+    td:nth-child(1) input {
+      min-width: 150px;
+    }
+
+    td:nth-child(3) input {
+      min-width: 210px;
+    }
+
+    td:nth-child(8) input {
+      min-width: 190px;
+    }
+
+    .empty-row {
+      padding: 24px;
+      color: var(--faint);
+      text-align: center;
+    }
+
+    .table-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .preview {
+      margin: 0;
+      padding: 17px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: #e9dfd4;
+      background: #191714;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 11px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .footer-note {
+      max-width: 1110px;
+      margin: 25px auto 0;
+      color: var(--faint);
+      font-size: 11px;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 1100px) {
+      .gate-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 850px) {
+      .topbar {
+        align-items: flex-start;
+        padding: 14px 18px;
+      }
+
+      .top-actions {
+        gap: 5px;
+      }
+
+      .save-status {
+        display: none;
+      }
+
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        padding: 12px 18px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line-soft);
+      }
+
+      .section-nav {
+        display: flex;
+        gap: 3px;
+        overflow-x: auto;
+      }
+
+      .section-nav a {
+        flex: 0 0 auto;
+      }
+
+      .progress-card,
+      .privacy-note {
+        display: none;
+      }
+
+      main {
+        padding: 38px 18px 60px;
+      }
+
+      .grid,
+      .grid.three,
+      .choice-grid,
+      .source-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .gate-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .section {
+        padding: 21px;
+      }
+    }
+
+    @media (max-width: 540px) {
+      .topbar {
+        display: block;
+      }
+
+      .top-actions {
+        justify-content: flex-start;
+        margin-top: 12px;
+      }
+
+      h1 {
+        font-size: 40px;
+      }
+
+      .gate-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .section-heading {
+        display: block;
+      }
+
+      .section-tag {
+        display: inline-block;
+        margin-top: 13px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">AA</div>
+        <div>
+          <strong>Applied AI Labs</strong>
+          <span>Medical device prospecting system builder</span>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <span class="save-status" id="saveStatus">Local only · changes auto-save</span>
+        <button class="btn ghost" id="importButton" type="button">Import JSON</button>
+        <button class="btn" id="exportJsonButton" type="button">JSON backup</button>
+        <button class="btn primary" id="exportBriefButton" type="button">Export handoff</button>
+        <button class="btn ghost danger" id="clearButton" type="button">Clear</button>
+        <input class="hidden" id="importFile" type="file" accept="application/json,.json" />
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-heading">Brief sections</div>
+
+        <nav class="section-nav">
+          <a href="#mission" data-nav-section="mission">
+            <span>01</span><span>Mission</span><b class="nav-status" data-nav-status="mission">•</b>
+          </a>
+          <a href="#offering" data-nav-section="offering">
+            <span>02</span><span>Offering fit</span><b class="nav-status" data-nav-status="offering">•</b>
+          </a>
+          <a href="#databases" data-nav-section="databases">
+            <span>03</span><span>Data sources</span><b class="nav-status" data-nav-status="databases">•</b>
+          </a>
+          <a href="#authority" data-nav-section="authority">
+            <span>04</span><span>Authority</span><b class="nav-status" data-nav-status="authority">•</b>
+          </a>
+          <a href="#project" data-nav-section="project">
+            <span>05</span><span>Project & budget</span><b class="nav-status" data-nav-status="project">•</b>
+          </a>
+          <a href="#stage" data-nav-section="stage">
+            <span>06</span><span>Acquisition stage</span><b class="nav-status" data-nav-status="stage">•</b>
+          </a>
+          <a href="#contacts" data-nav-section="contacts">
+            <span>07</span><span>Contact validation</span><b class="nav-status" data-nav-status="contacts">•</b>
+          </a>
+          <a href="#candidates" data-nav-section="candidates">
+            <span>08</span><span>Candidate log</span><b class="nav-status" data-nav-status="candidates">—</b>
+          </a>
+          <a href="#workflow" data-nav-section="workflow">
+            <span>09</span><span>AI workflow</span><b class="nav-status" data-nav-status="workflow">•</b>
+          </a>
+          <a href="#handoff" data-nav-section="handoff">
+            <span>10</span><span>Consultant handoff</span><b class="nav-status" data-nav-status="handoff">•</b>
+          </a>
+        </nav>
+
+        <div class="progress-card">
+          <div class="progress-label">
+            <span>Evidence gates</span>
+            <strong id="progressPct">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+          <div class="progress-label" style="margin: 10px 0 0;">
+            <span id="progressText">0 of 8 gates complete</span>
+          </div>
+        </div>
+
+        <div class="privacy-note">
+          Local-first storage. The brief remains in this browser until you export it. Browser local storage is not encrypted; use the export controls when sending the brief to the consultant.
+        </div>
+      </aside>
+
+      <main>
+        <div class="hero">
+          <div class="eyebrow">Applied AI Labs · Prospecting intelligence</div>
+          <h1>From database search to defensible outreach.</h1>
+          <p class="hero-copy">
+            The consultant’s response identifies the right problem: an FDA record can reveal a company or device program, but it does not prove purchasing authority, budget, timing, supplier fit, or contact accuracy. This brief builder turns those concerns into explicit evidence gates.
+          </p>
+          <div class="hero-note">
+            Treat every regulatory or market signal as a lead—not as proof of buying intent.
+          </div>
+        </div>
+
+        <div class="gate-grid" id="gateGrid"></div>
+
+        <form id="briefForm" onsubmit="return false;">
+          <section class="section" id="mission">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">01 · Foundations</div>
+                <h2>Define the mission</h2>
+                <p>Give the consultant enough context to distinguish a useful prospect from a broad list of medical device companies.</p>
+              </div>
+              <div class="section-tag">Evidence gate</div>
+            </div>
+
+            <div class="callout">
+              <strong>Why this matters.</strong> “Find hypotube buyers” is too broad. The search needs a target market, geography, account profile, and a clear definition of success.
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label>Client company
+                  <small>Who will ultimately send the outreach?</small>
+                </label>
+                <input data-path="meta.clientCompany" placeholder="Company name" />
+              </div>
+
+              <div class="field">
+                <label>Internal sender
+                  <small>Name or role that should appear in outreach.</small>
+                </label>
+                <input data-path="meta.senderName" placeholder="Name and title" />
+              </div>
+
+              <div class="field">
+                <label>Project name</label>
+                <input data-path="meta.projectName" placeholder="Example: Hypotube account discovery" />
+              </div>
+
+              <div class="field">
+                <label>Target completion date</label>
+                <input type="date" data-path="meta.dueDate" />
+              </div>
+
+              <div class="field full">
+                <label>Primary objective
+                  <small>What decision or action should this research support?</small>
+                </label>
+                <textarea data-path="meta.objective" placeholder="Example: Identify 25 qualified device companies with evidence of an active catheter program and produce two validated buyer or influencer contacts per account."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Target medical device areas</label>
+                <div class="choice-grid">
+                  <label class="choice"><input type="checkbox" data-array="targets.segments" data-value="Electrophysiology"><span>Electrophysiology</span></label>
+                  <label class="choice"><input type="checkbox" data-array="targets.segments" data-value="Cardiovascular"><span>Cardiovascular</span></label>
+                  <label class="choice"><input type="checkbox" data-array="targets.segments" data-value="Neurovascular"><span>Neurovascular</span></label>
+                  <label class="choice"><input type="checkbox" data-array="targets.segments" data-value="Peripheral vascular"><span>Peripheral vascular</span></label>
+                  <label class="choice"><input type="checkbox" data-array="targets.segments" data-value="Structural heart"><span>Structural heart</span></label>
+                  <label class="choice"><input type="checkbox" data-array="targets.segments" data-value="Other"><span>Other</span></label>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Geography and account profile
+                  <small>Countries, regions, company size, public/private, OEM vs contract manufacturer, and exclusions.</small>
+                </label>
+                <textarea data-path="targets.profile" placeholder="Example: US and Europe; catheter OEMs and specialist startups; exclude pure distributors."></textarea>
+              </div>
+
+              <div class="field full">
+                <label>Internal notes or assumptions</label>
+                <textarea data-path="meta.notes" placeholder="What has already been tried? What must the consultant avoid repeating?"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="offering">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">02 · Fit definition</div>
+                <h2>Describe the offering</h2>
+                <p>The better the manufacturing and commercial fit is defined, the more accurately accounts can be ranked.</p>
+              </div>
+              <div class="section-tag">Required context</div>
+            </div>
+
+            <div class="callout">
+              <strong>Why this matters.</strong> A company may develop catheters but still be a poor fit because its geometry, material, volume, quality, or supplier qualification requirements do not match the offering.
+            </div>
+
+            <div class="grid">
+              <div class="field full">
+                <label>Offering summary
+                  <small>Describe the laser-cut hypotube capability in plain language.</small>
+                </label>
+                <textarea data-path="offering.summary" placeholder="Example: Laser-cut stainless steel and nitinol hypotubes for steerable catheter shafts, including rapid prototypes and production quantities."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Technical capabilities</label>
+                <textarea data-path="offering.capabilities" placeholder="Materials, tube sizes, wall thickness, cut patterns, tolerances, surface finishing, joining, inspection, packaging, etc."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Commercial constraints</label>
+                <textarea data-path="offering.constraints" placeholder="Minimum order quantities, prototype economics, lead times, geographic limits, tooling, price bands, or other constraints."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Quality and regulatory credentials</label>
+                <textarea data-path="offering.quality" placeholder="ISO certifications, validation capabilities, traceability, cleanroom, quality systems, customer audit readiness, or regulatory experience."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Typical volume and engagement profile</label>
+                <textarea data-path="offering.volume" placeholder="Prototype, low volume, NPI, production, recurring replenishment, or other commercial profile."></textarea>
+              </div>
+
+              <div class="field full">
+                <label>Best-fit engagement stages</label>
+                <div class="choice-grid">
+                  <label class="choice"><input type="checkbox" data-array="offering.fitModes" data-value="Prototype / feasibility"><span>Prototype / feasibility</span></label>
+                  <label class="choice"><input type="checkbox" data-array="offering.fitModes" data-value="NPI / design transfer"><span>NPI / design transfer</span></label>
+                  <label class="choice"><input type="checkbox" data-array="offering.fitModes" data-value="Supplier qualification"><span>Supplier qualification</span></label>
+                  <label class="choice"><input type="checkbox" data-array="offering.fitModes" data-value="Recurring production"><span>Recurring production</span></label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="databases">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">03 · Signal selection</div>
+                <h2>Choose the data sources</h2>
+                <p>Document which sources should be used, what each source can reveal, and what it cannot prove.</p>
+              </div>
+              <div class="section-tag">Evidence gate</div>
+            </div>
+
+            <div class="callout">
+              <strong>Consultant’s question:</strong> There are many FDA databases. Which ones should be targeted, and why are they the right sources for this search? Select sources based on the signal they provide—not because they are merely available.
+            </div>
+
+            <div class="source-grid">
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="FDA 510(k)">
+                <span><strong>FDA 510(k)</strong><small>Useful for cleared device applicants, predicates, product categories, and regulatory timing. Does not identify component buyers.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="FDA PMA">
+                <span><strong>FDA PMA</strong><small>Useful for higher-risk device sponsors, approved product families, and approval history.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="FDA De Novo">
+                <span><strong>FDA De Novo</strong><small>Useful for novel device programs and companies establishing new device classifications.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="FDA Establishment Registration & Device Listing">
+                <span><strong>Establishment Registration & Device Listing</strong><small>Useful for associating establishments with device activity; listing status should be checked for currency.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="AccessGUDID / GUDID">
+                <span><strong>AccessGUDID / GUDID</strong><small>Useful for product, identifier, labeler, and manufacturer mapping. Generally weak for purchasing-intent qualification.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="ClinicalTrials.gov">
+                <span><strong>ClinicalTrials.gov</strong><small>Non-FDA signal for active studies, sponsors, indications, and possible development timing.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="SEC filings / company disclosures">
+                <span><strong>SEC filings / company disclosures</strong><small>Potential signals for launches, funding, manufacturing strategy, risk factors, and commercial timing.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="Company sites / patents / publications">
+                <span><strong>Company sites / patents / publications</strong><small>Useful for product architecture, engineering language, personnel, and development signals.</small></span>
+              </label>
+
+              <label class="source-choice">
+                <input type="checkbox" data-array="databases.selected" data-value="Other">
+                <span><strong>Other source</strong><small>Specify an industry database, procurement source, trade association, or commercial enrichment tool below.</small></span>
+              </label>
+            </div>
+
+            <div class="grid" style="margin-top: 20px;">
+              <div class="field full">
+                <label>Why are the selected sources appropriate?
+                  <small>State the signal expected from each source and how it relates to laser-cut hypotube demand.</small>
+                </label>
+                <textarea data-path="databases.rationale" placeholder="Example: Use 510(k) and PMA records to identify catheter companies and product families, then use clinical-trial and company sources to identify active development programs."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Search terms and classification logic</label>
+                <textarea data-path="databases.searchTerms" placeholder="Device terms, product terms, applicant names, product codes, catheter terminology, component terminology, or synonyms."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Filters and time window</label>
+                <textarea data-path="databases.filters" placeholder="Recent approvals, geography, company type, product code, indication, current listing status, or date range."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Success signal
+                  <small>What should make a record worth further research?</small>
+                </label>
+                <textarea data-path="databases.successSignal" placeholder="Example: A recent device clearance plus evidence of a catheter platform, manufacturing expansion, clinical activity, or supplier hiring."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Other sources or tools</label>
+                <textarea data-path="databases.other" placeholder="Commercial databases, email verification tools, LinkedIn, trade shows, procurement portals, or internal records."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="authority">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">04 · Buying center</div>
+                <h2>Define purchasing authority</h2>
+                <p>Specify which people matter, what authority means, and how a title will be validated.</p>
+              </div>
+              <div class="section-tag">Evidence gate</div>
+            </div>
+
+            <div class="callout">
+              <strong>Consultant’s question:</strong> How do you confirm that an individual has purchasing authority? A title alone is not enough. The system should distinguish economic buyers, technical evaluators, supplier-quality stakeholders, and useful internal champions.
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label>Priority roles and titles
+                  <small>Include primary buyers and secondary influencers.</small>
+                </label>
+                <textarea data-path="authority.roles" placeholder="Example: VP/Director of Operations, Strategic Sourcing, Supply Chain, Procurement, Engineering, R&D, Supplier Quality, Manufacturing Engineering."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Authority signals</label>
+                <textarea data-path="authority.authoritySignals" placeholder="Example: Owns supplier selection, appears in sourcing announcements, manages contract manufacturers, approves engineering changes, or is named in procurement responsibilities."></textarea>
+              </div>
+
+              <div class="field">
+                <label>How should authority be confirmed?
+                  <small>Describe the verification method, not just the desired title.</small>
+                </label>
+                <textarea data-path="authority.confirmMethod" placeholder="Example: Verify role on the company website or recent professional profile, cross-check against a product or operations source, and ask for a referral if authority is unclear."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Influencer versus decision-maker logic</label>
+                <textarea data-path="authority.influencer" placeholder="Which technical or quality contacts should still be pursued if they do not sign the purchase order?"></textarea>
+              </div>
+
+              <div class="field full">
+                <label>Disqualifiers</label>
+                <textarea data-path="authority.disqualifiers" placeholder="Example: Former employee, consultant without current project involvement, distributor, student, unrelated business unit, or generic contact with no role evidence."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="project">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">05 · Commercial readiness</div>
+                <h2>Confirm project activity and budget</h2>
+                <p>Capture the evidence that a target may have an active program and a realistic path to supplier engagement.</p>
+              </div>
+              <div class="section-tag">Evidence gate</div>
+            </div>
+
+            <div class="callout">
+              <strong>Consultant’s question:</strong> How do you confirm that the company is working on a project with budget? Public data rarely proves budget directly. Use observable proxies, record their source and date, and distinguish “unknown” from “confirmed.”
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label>Project activity signals</label>
+                <textarea data-path="project.signals" placeholder="Example: Recent clearance, clinical trial, product launch, engineering hiring, manufacturing expansion, design-transfer activity, public partnership, or supplier search."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Budget signals or proxies</label>
+                <textarea data-path="project.budgetSignals" placeholder="Example: Funding round, commercial revenue, strategic investment, grant, public manufacturing spend, active hiring, purchase announcement, or confirmed RFQ."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Timing assumptions</label>
+                <textarea data-path="project.timing" placeholder="When might the need occur? What launch, trial, approval, production, or qualification milestone matters?"></textarea>
+              </div>
+
+              <div class="field">
+                <label>Evidence standard
+                  <small>Define what qualifies as weak, moderate, and strong evidence.</small>
+                </label>
+                <textarea data-path="project.evidenceStandard" placeholder="Example: Strong = explicit RFQ or supplier request. Moderate = recent product milestone plus relevant hiring. Weak = old clearance with no current activity."></textarea>
+              </div>
+
+              <div class="field full">
+                <label>Unknowns that must be validated during discovery</label>
+                <textarea data-path="project.unknowns" placeholder="What can public research not establish? Include budget owner, forecast volume, approved supplier list, timing, technical requirements, and incumbent supplier status."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="stage">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">06 · Opportunity timing</div>
+                <h2>Match acquisition stage to the offering</h2>
+                <p>Define when a company is early enough to influence and mature enough to have an actionable need.</p>
+              </div>
+              <div class="section-tag">Evidence gate</div>
+            </div>
+
+            <div class="callout">
+              <strong>Consultant’s question:</strong> How do you confirm that the opportunity is in a stage that matches the offering? A company can be relevant but too early, already locked into a supplier, or too late for a new component source.
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label>Current likely stage</label>
+                <select data-path="acquisition.currentStage">
+                  <option value="">Select one</option>
+                  <option>Unknown</option>
+                  <option>Concept / feasibility</option>
+                  <option>Prototype development</option>
+                  <option>NPI / design transfer</option>
+                  <option>Supplier identification</option>
+                  <option>RFQ / sourcing event</option>
+                  <option>Supplier qualification</option>
+                  <option>Recurring production</option>
+                  <option>Established / incumbent locked</option>
+                  <option>Dormant / no current signal</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Desired target stage</label>
+                <select data-path="acquisition.targetStage">
+                  <option value="">Select one</option>
+                  <option>Concept / feasibility</option>
+                  <option>Prototype development</option>
+                  <option>NPI / design transfer</option>
+                  <option>Supplier identification</option>
+                  <option>RFQ / sourcing event</option>
+                  <option>Supplier qualification</option>
+                  <option>Recurring production</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Stage-match criteria</label>
+                <textarea data-path="acquisition.matchCriteria" placeholder="What evidence indicates that the opportunity is timely for your capabilities?"></textarea>
+              </div>
+
+              <div class="field">
+                <label>Stop conditions</label>
+                <textarea data-path="acquisition.stopConditions" placeholder="When should a lead be rejected, deferred, or placed in nurture rather than contacted now?"></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="contacts">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">07 · Data quality</div>
+                <h2>Set the contact validation standard</h2>
+                <p>Define the minimum contact record and how recently each data point must have been verified.</p>
+              </div>
+              <div class="section-tag">Evidence gate</div>
+            </div>
+
+            <div class="callout">
+              <strong>Consultant’s question:</strong> How do you confirm that contact information is accurate? Every contact should have a role source, a company association, a verification date, and a confidence level. Do not treat an inferred email address as verified.
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label>Minimum fields required before outreach</label>
+                <div class="choice-grid">
+                  <label class="choice"><input type="checkbox" data-array="contacts.minimumFields" data-value="Full name"><span>Full name</span></label>
+                  <label class="choice"><input type="checkbox" data-array="contacts.minimumFields" data-value="Current title/function"><span>Current title/function</span></label>
+                  <label class="choice"><input type="checkbox" data-array="contacts.minimumFields" data-value="Company and domain"><span>Company and domain</span></label>
+                  <label class="choice"><input type="checkbox" data-array="contacts.minimumFields" data-value="Work email"><span>Work email</span></label>
+                  <label class="choice"><input type="checkbox" data-array="contacts.minimumFields" data-value="Source URL"><span>Source URL</span></label>
+                  <label class="choice"><input type="checkbox" data-array="contacts.minimumFields" data-value="Verification date"><span>Verification date</span></label>
+                </div>
+              </div>
+
+              <div class="field">
+                <label>Acceptable validation sources</label>
+                <textarea data-path="contacts.validationSources" placeholder="Example: Company leadership page, current professional profile, conference speaker page, FDA submission, press release, or verified email tool."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Recency requirement</label>
+                <input data-path="contacts.recency" placeholder="Example: Role and email must be verified within 90 days." />
+              </div>
+
+              <div class="field">
+                <label>Validation and confidence method</label>
+                <textarea data-path="contacts.method" placeholder="How should the researcher label verified, probable, inferred, or invalid contacts?"></textarea>
+              </div>
+
+              <div class="field full">
+                <label>Privacy and outreach guardrails</label>
+                <textarea data-path="contacts.guardrails" placeholder="Example: Use professional contact data only, honor opt-outs, comply with applicable email laws, and avoid claiming knowledge that has not been verified."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="candidates">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">08 · Research output</div>
+                <h2>Candidate account and contact log</h2>
+                <p>Use this worksheet to record the company, device evidence, project signal, and person of interest without losing the provenance of the research.</p>
+              </div>
+              <div class="section-tag">Working list</div>
+            </div>
+
+            <div class="callout">
+              <strong>Recommended rule:</strong> Every candidate should have at least one source URL, a dated signal, and a clear note explaining why the company may need a laser-cut hypotube.
+            </div>
+
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Account / company</th>
+                    <th>Vertical / device program</th>
+                    <th>FDA or other evidence URL</th>
+                    <th>Signal and date</th>
+                    <th>Contact / title</th>
+                    <th>Email / contact source</th>
+                    <th>Authority, stage, budget evidence</th>
+                    <th>Confidence</th>
+                    <th>Notes</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody id="candidateBody"></tbody>
+              </table>
+            </div>
+
+            <div class="table-actions">
+              <button class="btn" id="exportCsvButton" type="button">Export candidates CSV</button>
+              <button class="btn primary" id="addCandidateButton" type="button">+ Add candidate</button>
+            </div>
+          </section>
+
+          <section class="section" id="workflow">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">09 · Operating model</div>
+                <h2>Design the AI-assisted workflow</h2>
+                <p>Separate what AI can accelerate from what a human must verify before a prospect is contacted.</p>
+              </div>
+              <div class="section-tag">Target → enrich</div>
+            </div>
+
+            <div class="callout">
+              <strong>Creative opportunity.</strong> AI can classify device records, extract applicant names, normalize device terminology, find repeated company signals, deduplicate accounts, rank evidence, and draft personalization. It should not invent authority, budget, product requirements, or contact verification.
+            </div>
+
+            <div class="grid">
+              <div class="field full">
+                <label>Targeting → identifying → extracting → enriching → qualifying steps</label>
+                <textarea data-path="workflow.steps" placeholder="Describe the intended workflow from source selection through consultant handoff. Include who owns each step."></textarea>
+              </div>
+
+              <div class="field">
+                <label>AI tasks</label>
+                <textarea data-path="workflow.aiTasks" placeholder="Example: Extract FDA applicants, normalize company names, classify verticals, detect recent signals, summarize evidence, identify likely functions, and rank accounts."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Human verification tasks</label>
+                <textarea data-path="workflow.humanChecks" placeholder="Example: Confirm current company status, inspect source documents, validate contact role, review email accuracy, and approve outreach claims."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Scoring or ranking logic</label>
+                <textarea data-path="workflow.scoring" placeholder="How should relevance, evidence strength, authority, timing, technical fit, and contact confidence be weighted?"></textarea>
+              </div>
+
+              <div class="field">
+                <label>Consultant handoff format</label>
+                <textarea data-path="workflow.handoff" placeholder="Example: Markdown brief plus CSV account list, with source URLs, evidence dates, qualification notes, and suggested first-contact angle."></textarea>
+              </div>
+
+              <div class="field full">
+                <label>AI guardrails</label>
+                <textarea data-path="workflow.guardrails" placeholder="Example: Preserve source URLs, mark unknowns explicitly, never convert a proxy into a fact, do not infer a personal email as verified, and require human approval before outreach."></textarea>
+              </div>
+            </div>
+          </section>
+
+          <section class="section" id="handoff">
+            <div class="section-heading">
+              <div>
+                <div class="eyebrow">10 · Outreach preparation</div>
+                <h2>Give the consultant a relevant opening</h2>
+                <p>These fields provide the evidence and hypotheses needed to draft a specific introductory email without making unsupported claims.</p>
+              </div>
+              <div class="section-tag">Email inputs</div>
+            </div>
+
+            <div class="callout">
+              <strong>Important.</strong> The outreach should reference a verified device, program, or business signal—not simply say that the recipient works in medical devices.
+            </div>
+
+            <div class="grid">
+              <div class="field">
+                <label>Personalization proof</label>
+                <textarea data-path="outreach.proof" placeholder="Insert the specific, verified fact that makes the message relevant. Include the source URL in the candidate log."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Customer pain hypothesis</label>
+                <textarea data-path="outreach.painHypothesis" placeholder="Example: Need for rapid iteration, tight cut tolerances, difficult-to-source nitinol tubing, or a second qualified supplier."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Low-friction call to action</label>
+                <textarea data-path="outreach.callToAction" placeholder="Example: Ask whether a 15-minute conversation or capability review would be useful."></textarea>
+              </div>
+
+              <div class="field">
+                <label>Preferred outreach channels</label>
+                <input data-path="outreach.channels" placeholder="Email, referral, trade show, LinkedIn, phone, or other." />
+              </div>
+
+              <div class="field full">
+                <label>Drafting notes and claims to avoid</label>
+                <textarea data-path="outreach.notes" placeholder="What should the email emphasize or avoid?"></textarea>
+              </div>
+
+              <div class="field full">
+                <label>Outreach framing preview</label>
+                <pre class="preview" id="emailPreview"></pre>
+              </div>
+            </div>
+          </section>
+        </form>
+
+        <div class="footer-note">
+          This tool is a qualification and handoff system, not a live FDA search service. It records the search strategy and evidence required for later research. Regulatory records, professional profiles, and email addresses should be independently checked before outreach.
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = "applied-ai-labs-hypotube-prospecting-brief-v1";
+
+    const defaultState = {
+      meta: {
+        clientCompany: "",
+        senderName: "",
+        projectName: "",
+        dueDate: "",
+        objective: "",
+        notes: ""
+      },
+      targets: {
+        segments: [],
+        profile: ""
+      },
+      offering: {
+        summary: "",
+        capabilities: "",
+        constraints: "",
+        quality: "",
+        volume: "",
+        fitModes: []
+      },
+      databases: {
+        selected: [],
+        rationale: "",
+        searchTerms: "",
+        filters: "",
+        successSignal: "",
+        other: ""
+      },
+      authority: {
+        roles: "",
+        authoritySignals: "",
+        confirmMethod: "",
+        influencer: "",
+        disqualifiers: ""
+      },
+      project: {
+        signals: "",
+        budgetSignals: "",
+        timing: "",
+        evidenceStandard: "",
+        unknowns: ""
+      },
+      acquisition: {
+        currentStage: "",
+        targetStage: "",
+        matchCriteria: "",
+        stopConditions: ""
+      },
+      contacts: {
+        minimumFields: [],
+        validationSources: "",
+        recency: "",
+        method: "",
+        guardrails: ""
+      },
+      workflow: {
+        steps: "",
+        aiTasks: "",
+        humanChecks: "",
+        scoring: "",
+        handoff: "",
+        guardrails: ""
+      },
+      outreach: {
+        proof: "",
+        painHypothesis: "",
+        callToAction: "",
+        channels: "",
+        notes: ""
+      },
+      candidates: []
+    };
+
+    let state = clone(defaultState);
+    let saveTimer;
+
+    function clone(value) {
+      return JSON.parse(JSON.stringify(value));
+    }
+
+    function getPath(object, path) {
+      return path.split(".").reduce((result, key) => {
+        return result == null ? undefined : result[key];
+      }, object);
+    }
+
+    function setPath(object, path, value) {
+      const parts = path.split(".");
+      let target = object;
+
+      parts.slice(0, -1).forEach((part) => {
+        if (!target[part] || typeof target[part] !== "object") {
+          target[part] = {};
+        }
+        target = target[part];
+      });
+
+      target[parts[parts.length - 1]] = value;
+    }
+
+    function filled(value) {
+      if (Array.isArray(value)) return value.length > 0;
+      return String(value || "").trim().length > 0;
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "").replace(/[&<>"']/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;"
+      }[character]));
+    }
+
+    function saveDraft() {
+      clearTimeout(saveTimer);
+
+      saveTimer = setTimeout(() => {
+        try {
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          const now = new Date();
+          document.getElementById("saveStatus").textContent =
+            "Saved locally · " +
+            now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        } catch (error) {
+          document.getElementById("saveStatus").textContent =
+            "Local save unavailable";
+        }
+      }, 120);
+    }
+
+    function gateData() {
+      return [
+        {
+          id: "mission",
+          number: "01",
+          title: "Objective & target",
+          description: "Who is being targeted and what constitutes success?",
+          ok: filled(state.meta.objective) && state.targets.segments.length > 0
+        },
+        {
+          id: "offering",
+          number: "02",
+          title: "Offering fit",
+          description: "What technical and commercial need can be served?",
+          ok: filled(state.offering.summary) && filled(state.offering.capabilities)
+        },
+        {
+          id: "databases",
+          number: "03",
+          title: "Source rationale",
+          description: "Why should each selected database be searched?",
+          ok: state.databases.selected.length > 0 && filled(state.databases.rationale)
+        },
+        {
+          id: "authority",
+          number: "04",
+          title: "Buying authority",
+          description: "How will the buyer or influencer be confirmed?",
+          ok: filled(state.authority.roles) &&
+              filled(state.authority.authoritySignals) &&
+              filled(state.authority.confirmMethod)
+        },
+        {
+          id: "project",
+          number: "05",
+          title: "Project & budget",
+          description: "What evidence indicates active work and commercial readiness?",
+          ok: filled(state.project.signals) &&
+              filled(state.project.budgetSignals) &&
+              filled(state.project.evidenceStandard)
+        },
+        {
+          id: "stage",
+          number: "06",
+          title: "Acquisition stage",
+          description: "When does the opportunity match the offering?",
+          ok: filled(state.acquisition.currentStage) &&
+              filled(state.acquisition.targetStage) &&
+              filled(state.acquisition.matchCriteria)
+        },
+        {
+          id: "contacts",
+          number: "07",
+          title: "Contact accuracy",
+          description: "What fields, sources, and recency standard are required?",
+          ok: state.contacts.minimumFields.length > 0 &&
+              filled(state.contacts.validationSources) &&
+              filled(state.contacts.recency) &&
+              filled(state.contacts.method)
+        },
+        {
+          id: "workflow",
+          number: "08",
+          title: "AI workflow",
+          description: "What can AI accelerate and what requires human review?",
+          ok: filled(state.workflow.aiTasks) &&
+              filled(state.workflow.humanChecks) &&
+              filled(state.workflow.guardrails)
+        }
+      ];
+    }
+
+    function refreshDerived() {
+      const gates = gateData();
+      const complete = gates.filter((gate) => gate.ok).length;
+      const percent = Math.round((complete / gates.length) * 100);
+
+      document.getElementById("progressFill").style.width = percent + "%";
+      document.getElementById("progressPct").textContent = percent + "%";
+      document.getElementById("progressText").textContent =
+        `${complete} of ${gates.length} gates complete`;
+
+      document.getElementById("candidateCount").textContent =
+        state.candidates.length;
+      document.getElementById("sourceCount").textContent =
+        state.databases.selected.length;
+      document.getElementById("missingCount").textContent =
+        gates.length - complete;
+
+      const gateGrid = document.getElementById("gateGrid");
+      gateGrid.innerHTML = gates.map((gate) => `
+        <a class="gate ${gate.ok ? "complete" : ""}" href="#${gate.id}">
+          <div class="gate-number">
+            <span>${gate.number}</span>
+            <span class="gate-state">${gate.ok ? "READY" : "OPEN"}</span>
+          </div>
+          <h3>${escapeHtml(gate.title)}</h3>
+          <p>${escapeHtml(gate.description)}</p>
+        </a>
+      `).join("");
+
+      document.querySelectorAll("[data-nav-status]").forEach((status) => {
+        const id = status.dataset.navStatus;
+        const gate = gates.find((item) => item.id === id);
+
+        status.classList.remove("ready");
+
+        if (gate) {
+          status.textContent = gate.ok ? "✓" : "•";
+          if (gate.ok) status.classList.add("ready");
+        } else if (id === "candidates") {
+          status.textContent = state.candidates.length || "—";
+          if (state.candidates.length) status.classList.add("ready");
+        } else if (id === "handoff") {
+          status.textContent = filled(state.outreach.proof) ? "✓" : "•";
+          if (filled(state.outreach.proof)) status.classList.add("ready");
+        }
+      });
+
+      renderEmailPreview();
+    }
+
+    function hydrateForm() {
+      document.querySelectorAll("[data-path]").forEach((element) => {
+        const value = getPath(state, element.dataset.path);
+
+        if (element.type === "checkbox") {
+          element.checked = Boolean(value);
+        } else {
+          element.value = value ?? "";
+        }
+      });
+
+      document.querySelectorAll("[data-array]").forEach((element) => {
+        const values = getPath(state, element.dataset.array) || [];
+        element.checked = values.includes(element.dataset.value);
+      });
+    }
+
+    function renderCandidates() {
+      const body = document.getElementById("candidateBody");
+
+      if (!state.candidates.length) {
+        body.innerHTML = `
+          <tr>
+            <td class="empty-row" colspan="10">
+              No candidates yet. Add a company after identifying a relevant device, development, or sourcing signal.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      body.innerHTML = state.candidates.map((candidate, index) => {
+        const row = candidate || {};
+        const confidence = row.confidence || "Unrated";
+
+        return `
+          <tr>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="company"
+                     value="${escapeHtml(row.company)}" placeholder="Company name" />
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="vertical"
+                     value="${escapeHtml(row.vertical)}" placeholder="Vertical / device" />
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="evidenceUrl"
+                     value="${escapeHtml(row.evidenceUrl)}" placeholder="https://..." />
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="signal"
+                     value="${escapeHtml(row.signal)}" placeholder="Signal + date" />
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="contact"
+                     value="${escapeHtml(row.contact)}" placeholder="Name / title" />
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="emailSource"
+                     value="${escapeHtml(row.emailSource)}" placeholder="Email / source" />
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="qualification"
+                     value="${escapeHtml(row.qualification)}" placeholder="Authority / stage / budget" />
+            </td>
+            <td>
+              <select data-candidate-index="${index}" data-candidate-field="confidence">
+                <option ${confidence === "Unrated" ? "selected" : ""}>Unrated</option>
+                <option ${confidence === "Low" ? "selected" : ""}>Low</option>
+                <option ${confidence === "Medium" ? "selected" : ""}>Medium</option>
+                <option ${confidence === "High" ? "selected" : ""}>High</option>
+              </select>
+            </td>
+            <td>
+              <input data-candidate-index="${index}" data-candidate-field="notes"
+                     value="${escapeHtml(row.notes)}" placeholder="Next action" />
+            </td>
+            <td>
+              <button class="btn ghost danger" type="button"
+                      data-remove-candidate="${index}" aria-label="Remove candidate">×</button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderEmailPreview() {
+      const client = state.meta.clientCompany || "[Your company]";
+      const sender = state.meta.senderName || "[Sender name]";
+      const vertical = state.targets.segments.length
+        ? state.targets.segments.join(", ")
+        : "[target device area]";
+      const capability = state.offering.summary || "[relevant hypotube capability]";
+      const evidence = state.outreach.proof || "[specific, verified evidence]";
+      const stage = state.acquisition.targetStage || "[relevant acquisition stage]";
+      const pain = state.outreach.painHypothesis || "[customer problem]";
+      const cta = state.outreach.callToAction || "[low-friction next step]";
+
+      document.getElementById("emailPreview").textContent =
+`Subject: Hypotube support for ${vertical} device programs
+
+Hi [Contact name],
+
+I noticed ${evidence}. If your team is currently in ${stage} for a ${vertical} program, ${client} may be relevant because we support ${capability}.
+
+We often help device teams address ${pain}. Would ${cta} be useful?
+
+Best,
+${sender}
+${client}
+
+Review before sending:
+• Replace every bracketed item with verified information.
+• Link the supporting source in the research record.
+• Do not imply confirmed budget, authority, or supplier need unless it has been validated.`;
+    }
+
+    function addCandidate() {
+      state.candidates.push({
+        company: "",
+        vertical: "",
+        evidenceUrl: "",
+        signal: "",
+        contact: "",
+        emailSource: "",
+        qualification: "",
+        confidence: "Unrated",
+        notes: ""
+      });
+
+      renderCandidates();
+      refreshDerived();
+      saveDraft();
+    }
+
+    function download(filename, content, mimeType) {
+      const blob = new Blob([content], { type: mimeType });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    }
+
+    function valueOrDash(value) {
+      if (Array.isArray(value)) {
+        return value.length ? value.join(", ") : "Not provided";
+      }
+
+      return String(value || "").trim() || "Not provided";
+    }
+
+    function buildMarkdown() {
+      const generated = new Date().toLocaleString();
+      const candidates = state.candidates.length
+        ? state.candidates.map((candidate, index) => `
+### Candidate ${index + 1}: ${valueOrDash(candidate.company)}
+
+- **Vertical / device program:** ${valueOrDash(candidate.vertical)}
+- **FDA or other evidence URL:** ${valueOrDash(candidate.evidenceUrl)}
+- **Signal and date:** ${valueOrDash(candidate.signal)}
+- **Contact / title:** ${valueOrDash(candidate.contact)}
+- **Email / contact source:** ${valueOrDash(candidate.emailSource)}
+- **Authority, stage, and budget evidence:** ${valueOrDash(candidate.qualification)}
+- **Confidence:** ${valueOrDash(candidate.confidence)}
+- **Notes / next action:** ${valueOrDash(candidate.notes)}
+`).join("\n")
+        : "No candidate accounts have been added.";
+
+      return `# Applied AI Labs — Medical Device Hypotube Prospecting Brief
+
+Generated: ${generated}
+
+## 1. Mission and target
+
+- **Client company:** ${valueOrDash(state.meta.clientCompany)}
+- **Internal sender:** ${valueOrDash(state.meta.senderName)}
+- **Project name:** ${valueOrDash(state.meta.projectName)}
+- **Target completion date:** ${valueOrDash(state.meta.dueDate)}
+- **Objective:** ${valueOrDash(state.meta.objective)}
+- **Target medical device areas:** ${valueOrDash(state.targets.segments)}
+- **Geography and account profile:** ${valueOrDash(state.targets.profile)}
+- **Internal notes and assumptions:** ${valueOrDash(state.meta.notes)}
+
+## 2. Offering and fit
+
+- **Offering summary:** ${valueOrDash(state.offering.summary)}
+- **Technical capabilities:** ${valueOrDash(state.offering.capabilities)}
+- **Commercial constraints:** ${valueOrDash(state.offering.constraints)}
+- **Quality and regulatory credentials:** ${valueOrDash(state.offering.quality)}
+- **Typical volume and engagement profile:** ${valueOrDash(state.offering.volume)}
+- **Best-fit engagement stages:** ${valueOrDash(state.offering.fitModes)}
+
+## 3. Data source strategy
+
+- **Selected sources:** ${valueOrDash(state.databases.selected)}
+- **Source rationale:** ${valueOrDash(state.databases.rationale)}
+- **Search terms and classification logic:** ${valueOrDash(state.databases.searchTerms)}
+- **Filters and time window:** ${valueOrDash(state.databases.filters)}
+- **Success signal:** ${valueOrDash(state.databases.successSignal)}
+- **Other sources or tools:** ${valueOrDash(state.databases.other)}
+
+### Source interpretation rule
+
+An FDA or other database record is a lead signal. It does not independently prove purchasing authority, budget, supplier openness, acquisition timing, or contact accuracy.
+
+## 4. Purchasing authority
+
+- **Priority roles and titles:** ${valueOrDash(state.authority.roles)}
+- **Authority signals:** ${valueOrDash(state.authority.authoritySignals)}
+- **Confirmation method:** ${valueOrDash(state.authority.confirmMethod)}
+- **Influencer versus decision-maker logic:** ${valueOrDash(state.authority.influencer)}
+- **Disqualifiers:** ${valueOrDash(state.authority.disqualifiers)}
+
+## 5. Project activity and budget
+
+- **Project activity signals:** ${valueOrDash(state.project.signals)}
+- **Budget signals or proxies:** ${valueOrDash(state.project.budgetSignals)}
+- **Timing assumptions:** ${valueOrDash(state.project.timing)}
+- **Evidence standard:** ${valueOrDash(state.project.evidenceStandard)}
+- **Unknowns to validate:** ${valueOrDash(state.project.unknowns)}
+
+## 6. Acquisition stage
+
+- **Current likely stage:** ${valueOrDash(state.acquisition.currentStage)}
+- **Desired target stage:** ${valueOrDash(state.acquisition.targetStage)}
+- **Stage-match criteria:** ${valueOrDash(state.acquisition.matchCriteria)}
+- **Stop conditions:** ${valueOrDash(state.acquisition.stopConditions)}
+
+## 7. Contact validation
+
+- **Minimum fields required:** ${valueOrDash(state.contacts.minimumFields)}
+- **Acceptable validation sources:** ${valueOrDash(state.contacts.validationSources)}
+- **Recency requirement:** ${valueOrDash(state.contacts.recency)}
+- **Validation and confidence method:** ${valueOrDash(state.contacts.method)}
+- **Privacy and outreach guardrails:** ${valueOrDash(state.contacts.guardrails)}
+
+## 8. Candidate account and contact log
+
+${candidates}
+
+## 9. AI-assisted workflow
+
+- **Targeting through enrichment steps:** ${valueOrDash(state.workflow.steps)}
+- **AI tasks:** ${valueOrDash(state.workflow.aiTasks)}
+- **Human verification tasks:** ${valueOrDash(state.workflow.humanChecks)}
+- **Scoring or ranking logic:** ${valueOrDash(state.workflow.scoring)}
+- **Consultant handoff format:** ${valueOrDash(state.workflow.handoff)}
+- **AI guardrails:** ${valueOrDash(state.workflow.guardrails)}
+
+## 10. Outreach preparation
+
+- **Personalization proof:** ${valueOrDash(state.outreach.proof)}
+- **Customer pain hypothesis:** ${valueOrDash(state.outreach.painHypothesis)}
+- **Low-friction call to action:** ${valueOrDash(state.outreach.callToAction)}
+- **Preferred channels:** ${valueOrDash(state.outreach.channels)}
+- **Drafting notes and claims to avoid:** ${valueOrDash(state.outreach.notes)}
+
+## Recommended operating principle
+
+Use regulatory and market data to identify organizations and signals. Use independent evidence to qualify the account, buying center, timing, and contact. Mark unknowns explicitly. Require human review before outreach.
+`;
+    }
+
+    function buildCSV() {
+      const columns = [
+        "Account / company",
+        "Vertical / device program",
+        "FDA or other evidence URL",
+        "Signal and date",
+        "Contact / title",
+        "Email / contact source",
+        "Authority, stage, budget evidence",
+        "Confidence",
+        "Notes"
+      ];
+
+      const rows = state.candidates.map((candidate) => [
+        candidate.company,
+        candidate.vertical,
+        candidate.evidenceUrl,
+        candidate.signal,
+        candidate.contact,
+        candidate.emailSource,
+        candidate.qualification,
+        candidate.confidence,
+        candidate.notes
+      ]);
+
+      const quote = (value) =>
+        `"${String(value ?? "").replace(/"/g, '""')}"`;
+
+      return [columns, ...rows]
+        .map((row) => row.map(quote).join(","))
+        .join("\n");
+    }
+
+    function importState(imported) {
+      state = {
+        ...clone(defaultState),
+        ...imported,
+        meta: { ...clone(defaultState.meta), ...(imported.meta || {}) },
+        targets: { ...clone(defaultState.targets), ...(imported.targets || {}) },
+        offering: { ...clone(defaultState.offering), ...(imported.offering || {}) },
+        databases: { ...clone(defaultState.databases), ...(imported.databases || {}) },
+        authority: { ...clone(defaultState.authority), ...(imported.authority || {}) },
+        project: { ...clone(defaultState.project), ...(imported.project || {}) },
+        acquisition: { ...clone(defaultState.acquisition), ...(imported.acquisition || {}) },
+        contacts: { ...clone(defaultState.contacts), ...(imported.contacts || {}) },
+        workflow: { ...clone(defaultState.workflow), ...(imported.workflow || {}) },
+        outreach: { ...clone(defaultState.outreach), ...(imported.outreach || {}) },
+        candidates: Array.isArray(imported.candidates) ? imported.candidates : []
+      };
+
+      hydrateForm();
+      renderCandidates();
+      refreshDerived();
+      saveDraft();
+
+      document.getElementById("saveStatus").textContent =
+        "Imported and saved locally";
+    }
+
+    document.addEventListener("input", (event) => {
+      const element = event.target;
+
+      if (element.matches("[data-path]")) {
+        setPath(state, element.dataset.path, element.value);
+        refreshDerived();
+        saveDraft();
+      }
+
+      if (element.matches("[data-candidate-field]")) {
+        const index = Number(element.dataset.candidateIndex);
+        const field = element.dataset.candidateField;
+
+        if (state.candidates[index]) {
+          state.candidates[index][field] = element.value;
+          refreshDerived();
+          saveDraft();
+        }
+      }
+    });
+
+    document.addEventListener("change", (event) => {
+      const element = event.target;
+
+      if (element.matches("[data-array]")) {
+        const path = element.dataset.array;
+        const current = getPath(state, path) || [];
+        const value = element.dataset.value;
+
+        if (element.checked && !current.includes(value)) {
+          current.push(value);
+        }
+
+        if (!element.checked) {
+          setPath(state, path, current.filter((item) => item !== value));
+        } else {
+          setPath(state, path, current);
+        }
+
+        refreshDerived();
+        saveDraft();
+      }
+
+      if (element.matches("select[data-path]")) {
+        setPath(state, element.dataset.path, element.value);
+        refreshDerived();
+        saveDraft();
+      }
+
+      if (element.matches("[data-candidate-field]")) {
+        const index = Number(element.dataset.candidateIndex);
+        const field = element.dataset.candidateField;
+
+        if (state.candidates[index]) {
+          state.candidates[index][field] = element.value;
+          refreshDerived();
+          saveDraft();
+        }
+      }
+    });
+
+    document.getElementById("addCandidateButton").addEventListener("click", addCandidate);
+
+    document.getElementById("candidateBody").addEventListener("click", (event) => {
+      const button = event.target.closest("[data-remove-candidate]");
+
+      if (!button) return;
+
+      const index = Number(button.dataset.removeCandidate);
+
+      if (confirm("Remove this candidate from the local brief?")) {
+        state.candidates.splice(index, 1);
+        renderCandidates();
+        refreshDerived();
+        saveDraft();
+      }
+    });
+
+    document.getElementById("exportBriefButton").addEventListener("click", () => {
+      download(
+        "applied-ai-labs-prospecting-brief.md",
+        buildMarkdown(),
+        "text/markdown;charset=utf-8"
+      );
+    });
+
+    document.getElementById("exportJsonButton").addEventListener("click", () => {
+      const packageData = {
+        ...state,
+        exportedAt: new Date().toISOString(),
+        application: "Applied AI Labs — Medical Device Prospecting System Builder"
+      };
+
+      download(
+        "applied-ai-labs-prospecting-brief.json",
+        JSON.stringify(packageData, null, 2),
+        "application/json;charset=utf-8"
+      );
+    });
+
+    document.getElementById("exportCsvButton").addEventListener("click", () => {
+      download(
+        "applied-ai-labs-candidate-accounts.csv",
+        buildCSV(),
+        "text/csv;charset=utf-8"
+      );
+    });
+
+    document.getElementById("importButton").addEventListener("click", () => {
+      document.getElementById("importFile").click();
+    });
+
+    document.getElementById("importFile").addEventListener("change", async (event) => {
+      const file = event.target.files[0];
+
+      if (!file) return;
+
+      try {
+        const text = await file.text();
+        importState(JSON.parse(text));
+      } catch (error) {
+        alert("That file could not be imported. Please select a valid JSON backup.");
+      }
+
+      event.target.value = "";
+    });
+
+    document.getElementById("clearButton").addEventListener("click", () => {
+      const confirmed = confirm(
+        "Clear all collected information from this browser and reset the brief?"
+      );
+
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      state = clone(defaultState);
+      hydrateForm();
+      renderCandidates();
+      refreshDerived();
+
+      document.getElementById("saveStatus").textContent =
+        "Cleared · nothing is currently saved";
+    });
+
+    function loadSavedState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+
+        if (!saved) return;
+
+        importState(JSON.parse(saved));
+
+        document.getElementById("saveStatus").textContent =
+          "Loaded from this browser";
+      } catch (error) {
+        state = clone(defaultState);
+      }
+    }
+
+    // Add summary counters to the hero after the page loads.
+    const summary = document.createElement("div");
+    summary.className = "grid three";
+    summary.style.marginTop = "28px";
+    summary.innerHTML = `
+      <div class="progress-card">
+        <div class="progress-label"><span>Candidate accounts</span><strong id="candidateCount">0</strong></div>
+        <div class="progress-label" style="margin:0;"><span>Tracked in this brief</span></div>
+      </div>
+      <div class="progress-card">
+        <div class="progress-label"><span>Selected sources</span><strong id="sourceCount">0</strong></div>
+        <div class="progress-label" style="margin:0;"><span>FDA and external signals</span></div>
+      </div>
+      <div class="progress-card">
+        <div class="progress-label"><span>Open gates</span><strong id="missingCount">8</strong></div>
+        <div class="progress-label" style="margin:0;"><span>Still requiring definition</span></div>
+      </div>
+    `;
+    document.querySelector(".hero").appendChild(summary);
+
+    hydrateForm();
+    renderCandidates();
+    refreshDerived();
+    loadSavedState();
+  </script>
+</body>
+</html>
