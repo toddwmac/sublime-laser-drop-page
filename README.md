@@ -9,6 +9,36 @@ from `links.json` and published automatically to GitHub Pages whenever you push.
 
 ---
 
+## The short version (TL;DR)
+
+> **You almost never need to run a build.** Edit → commit → push. GitHub Actions
+> rebuilds `index.html` and deploys it to Pages automatically on every push to `main`.
+
+> **Tip — want to add links?** The fastest path is to ask Claude Code (or any AI
+> assistant): paste the titles and URLs, it edits `links.json` for you, then you
+> just commit and sync. No hand-editing needed. See
+> [Adding or editing a page](#adding-or-editing-a-page).
+
+The whole workflow:
+
+| You want to… | Do this |
+|---|---|
+| **Add a page** | Drop `foo.html` into the repo root. (Optional: add an entry to `links.json` for a custom title/order.) |
+| **Edit a page** | Edit the file. |
+| **Remove a page** | Delete the file — its card drops off the index automatically on the next build. |
+| **Rename / reorder / describe** | Edit `links.json`. |
+
+Then **commit and push** (in VS Code, that's the **Sync Changes** button). The live
+site refreshes within about a minute. No `npm install`, no manual build required.
+
+- `links.json` is the only file you normally touch by hand. `index.html` is
+  generated and gitignored — never edit it directly.
+- External links (`https://…`) exist only in `links.json`; remove one by deleting
+  its entry there.
+- Optional: preview locally first with `npm run build`, then open `index.html`.
+
+---
+
 ## How it works
 
 ```
@@ -38,6 +68,7 @@ hand — edit the sources and rebuild.
 | `links.json` | **The link file you maintain** — titles, descriptions, and ordering of pages. |
 | `build-index.mjs` | The generator. Reads `links.json` + auto-discovered pages → writes `index.html`. |
 | `index.html` | Generated output (gitignored). Don't hand-edit. |
+| `help.html` | A discreet, non-technical reminder of how to refresh this page, linked from the index header. Intentionally vague — no file names, URLs, or commands. |
 | `links.schema.json` | JSON Schema for `links.json` — drives autocomplete/validation in VS Code. |
 | `package.json` | Just exposes `npm run build`. Zero runtime dependencies. |
 | `.github/workflows/deploy.yml` | GitHub Actions: build + deploy to Pages on every push to `main`. |
@@ -50,9 +81,13 @@ hand — edit the sources and rebuild.
 
 ## Adding or editing a page
 
-1. Drop your page into the repo root, e.g. `about.html`.
-2. (Recommended) Add an entry to `links.json` to control title, description,
-   and order:
+> **Shortcut:** ask Claude Code (or any AI assistant) to do this for you — paste
+> the titles and URLs and it writes the `links.json` entries. Then commit and push.
+
+1. If it's a **local page**, drop the file into the repo root (e.g. `about.html`).
+   If it's an **external link** (e.g. `https://example.com`), there's no file —
+   skip to step 2.
+2. Add an entry to `links.json` to control title, description, and order:
 
    ```json
    {
@@ -62,12 +97,15 @@ hand — edit the sources and rebuild.
    }
    ```
 
-   Skip this and the page still appears — it uses the file name as its title and
-   is appended after your explicit entries. If a `links.json` entry points at a
-   file that doesn't exist, the build prints a warning but still emits the link.
+   Skip this for a local page and it still appears — it uses the file name as its
+   title and is appended after your explicit entries (external links always need
+   an entry, since there's no file to auto-discover). If a `links.json` entry
+   points at a local file that no longer exists, the build **drops it from the
+   index** (and prints a warning) — so removing a page file automatically removes
+   its card on the next build. External URLs are always kept.
 
-3. Rebuild locally and commit. The push deploys automatically (see
-   [Deployment](#deployment)).
+3. Commit and push. The push rebuilds and deploys automatically (see
+   [Deployment](#deployment)) — no local build required.
 
 ---
 
@@ -161,7 +199,12 @@ What's been done so far (so future-you has the context):
   `build-index.mjs` (the template lives there, not in `index.html`).
 - Everything is linked with **relative paths**, so pages resolve correctly even
   at a project Pages URL like `/<repo>/`.
-- The build emits a warning for any `links.json` entry whose target file is
-  missing — harmless, but worth cleaning up so CI logs stay tidy. The current
-  `links.json` still contains an `example.html` placeholder; replace it with your
-  real pages.
+- If a `links.json` entry points at a local file that has been deleted, the
+  build omits its card and prints a `dropped:` warning — this is what keeps the
+  index from showing pages you've already removed. The entry is left in
+  `links.json` so you can clean it up yourself; remove it to silence the warning.
+  External links (`http:`, `https:`, `mailto:`, …) are never dropped.
+- The index carries a discreet `?` link in the top-right corner (rendered by
+  `build-index.mjs`) that opens `help.html` — a plain-English, intentionally
+  vague reminder of how to refresh the page. `help.html` is excluded from the
+  card grid.

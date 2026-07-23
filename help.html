@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notes</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --text: #1a1d21;
+      --muted: #6b7177;
+      --accent: #4f6df5;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1115;
+        --text: #e8eaed;
+        --muted: #9aa0a6;
+        --accent: #8ab4ff;
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 620px; margin: 0 auto; padding: 64px 24px 80px; }
+    header { margin-bottom: 24px; }
+    h1 { margin: 0 0 6px; font-size: 1.55rem; letter-spacing: -0.02em; }
+    .lede { margin: 0; color: var(--muted); font-size: 1rem; }
+    p { margin: 0 0 16px; }
+    ul { padding-left: 1.15em; margin: 0 0 16px; }
+    li { margin: 0 0 12px; }
+    li b { font-weight: 600; }
+    .signoff { margin-top: 24px; color: var(--muted); }
+    .key { color: var(--accent); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Keeping this page current</h1>
+      <p class="lede">A note for future me — I don't visit often.</p>
+    </header>
+    <main>
+      <p>This page refreshes itself. I don't edit it by hand.</p>
+      <ul>
+        <li><b>To add something:</b> tell my assistant a name and where it should point. Then sync.</li>
+        <li><b>To remove something:</b> ask my assistant to take it down. It clears on its own. Then sync.</li>
+        <li><b>To rename or reorder:</b> describe the change to my assistant. Then sync.</li>
+      </ul>
+      <p class="signoff">The only step that ever actually publishes anything is <span class="key">syncing</span>. Everything else, I hand to my assistant and let the page take care of itself.</p>
+    </main>
+  </div>
+</body>
+</html>

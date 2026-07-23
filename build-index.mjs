@@ -12,7 +12,9 @@
 // }
 //
 // Any *.html / *.htm file present in this folder but missing from `pages`
-// is appended automatically (title = file name). `index.html` is excluded.
+// is appended automatically (title = file name). `index.html` and `help.html`
+// are excluded — the index is generated, and help.html is linked discreetly
+// from the header instead of shown as a card.
 
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -47,6 +49,11 @@ function loadManifest() {
   };
 }
 
+// HTML files that live in the root but must NOT become cards in the grid.
+// index.html is the generated output; help.html is surfaced only as the
+// discreet "?" link in the header.
+const SKIP_HTML = new Set(['index.html', 'help.html']);
+
 function discoverHtmlFiles() {
   const out = [];
   for (const name of readdirSync(ROOT)) {
@@ -54,7 +61,7 @@ function discoverHtmlFiles() {
     if (!statSync(full).isFile()) continue;
     const ext = extname(name).toLowerCase();
     if (ext !== '.html' && ext !== '.htm') continue;
-    if (name.toLowerCase() === 'index.html') continue;
+    if (SKIP_HTML.has(name.toLowerCase())) continue;
     out.push(name);
   }
   return out.sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
@@ -62,6 +69,16 @@ function discoverHtmlFiles() {
 
 function normalizeHref(href) {
   return String(href).replace(/^\.\//, '').toLowerCase();
+}
+
+// A ref is "local" if it has no URL scheme and isn't protocol-relative — i.e. it
+// points at a file in this directory rather than an external site. Only *local*
+// refs can go stale when a file is deleted; external URLs are always kept.
+function isLocalRef(href) {
+  const s = String(href).trim();
+  if (!s) return false;
+  if (s.startsWith('//')) return false;   // protocol-relative (//host/path)
+  return !/^[a-z][a-z0-9+.-]*:/i.test(s); // has no scheme (http:, mailto:, tel:, data:, …)
 }
 
 function esc(s) {
@@ -152,9 +169,28 @@ ${desc}        <span class="card-href">${esc(p.href)}</span>
     .empty { color: var(--muted); }
     code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: rgba(127,127,127,.12); padding: 1px 5px; border-radius: 5px; }
     footer { margin-top: 40px; color: var(--muted); font-size: .85rem; }
+    .help-link {
+      position: fixed;
+      top: 12px;
+      right: 16px;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .85rem;
+      opacity: .5;
+      transition: opacity .15s ease, color .15s ease;
+      z-index: 20;
+    }
+    .help-link:hover { opacity: 1; color: var(--accent); }
   </style>
 </head>
 <body>
+  <a class="help-link" href="help.html" aria-label="Notes" title="Notes">?</a>
   <div class="wrap">
     <header>
       <h1>${esc(manifest.title)}</h1>
@@ -171,21 +207,32 @@ ${cardHtml}
 }
 
 const manifest = loadManifest();
-const listed = new Set(manifest.pages.map((p) => normalizeHref(p.href)));
+
+// Drop manifest entries that point at a LOCAL file which no longer exists.
+// External URLs are never dropped (they aren't files). This guarantees that
+// deleting a page file also removes its card from the index on the next build,
+// so a stale "old page" can never linger — even if links.json still lists it.
+const dropped = [];
+const livePages = manifest.pages.filter((p) => {
+  if (!isLocalRef(p.href)) return true;                                  // external — keep
+  if (existsSync(join(ROOT, normalizeHref(p.href)))) return true;        // local & present — keep
+  dropped.push(p);                                                       // local & missing — drop
+  return false;
+});
+
+const listed = new Set(livePages.map((p) => normalizeHref(p.href)));
 const extras = discoverHtmlFiles()
   .filter((name) => !listed.has(normalizeHref(name)))
   .map((name) => ({ title: basename(name, extname(name)), href: name, description: '' }));
 
-const pages = [...manifest.pages, ...extras];
+const pages = [...livePages, ...extras];
 
-// Warn about manifest entries whose target file is missing.
-for (const p of manifest.pages) {
-  if (!existsSync(join(ROOT, normalizeHref(p.href)))) {
-    console.warn(`  ! warning: "${p.href}" not found in directory (link still emitted)`);
-  }
+// Surface anything we dropped so the maintainer knows to clean up links.json.
+for (const p of dropped) {
+  console.warn(`  ! dropped: "${p.href}" is listed in links.json but the file is missing — card omitted. Remove the entry to silence this.`);
 }
 
 writeFileSync(OUT_FILE, render(manifest, pages), 'utf8');
 
 console.log(`✓ Wrote ${OUT_FILE}`);
-console.log(`  ${manifest.pages.length} from links.json, ${extras.length} auto-discovered → ${pages.length} total`);
+console.log(`  ${livePages.length} from links.json${dropped.length ? ` (${dropped.length} dropped as missing)` : ''}, ${extras.length} auto-discovered → ${pages.length} total`);
