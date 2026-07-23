@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,21 +20,33 @@
         extend: {
           colors: {
             brand: {
-              charcoal: '#141413',
-              card: '#1F1E1B',
-              cardHover: '#262522',
-              border: '#33322E',
-              accent: '#CC785C',     // Anthropic warm terracotta
-              accentHover: '#DE8568',
-              accentMuted: 'rgba(204, 120, 92, 0.15)',
-              cream: '#ECEAE2',
-              muted: '#9E9C94',
-              surface: '#1A1916'
+              charcoal: 'rgb(var(--brand-charcoal) / <alpha-value>)',
+              card: 'rgb(var(--brand-card) / <alpha-value>)',
+              cardHover: 'rgb(var(--brand-cardHover) / <alpha-value>)',
+              border: 'rgb(var(--brand-border) / <alpha-value>)',
+              accent: 'rgb(var(--brand-accent) / <alpha-value>)',     // Anthropic warm terracotta
+              accentHover: 'rgb(var(--brand-accentHover) / <alpha-value>)',
+              accentMuted: 'var(--brand-accentMuted)',
+              cream: 'rgb(var(--brand-cream) / <alpha-value>)',
+              muted: 'rgb(var(--brand-muted) / <alpha-value>)',
+              surface: 'rgb(var(--brand-surface) / <alpha-value>)'
             }
           },
           fontFamily: {
             sans: ['Inter', 'system-ui', 'sans-serif'],
             serif: ['Newsreader', 'Georgia', 'serif'],
+          },
+          // Larger, more readable type scale — mirrors the readability pass
+          // applied to the-5-questions-b.html. Raising the floor of the small
+          // utility sizes so labels, inputs, and body copy are comfortable to read.
+          fontSize: {
+            'xs':   ['14px', { lineHeight: '1.4rem' }],
+            'sm':   ['15px', { lineHeight: '1.5rem' }],
+            'base': ['16px', { lineHeight: '1.6rem' }],
+            'lg':   ['19px', { lineHeight: '1.65rem' }],
+            'xl':   ['22px', { lineHeight: '1.7rem' }],
+            '2xl':  ['27px', { lineHeight: '1.8rem' }],
+            '3xl':  ['33px', { lineHeight: '2.1rem' }],
           }
         }
       }
@@ -42,24 +54,59 @@
   </script>
 
   <style>
+    /* Theme tokens — dark (default) */
+    :root,
+    :root[data-theme="dark"] {
+      --brand-charcoal: 20 20 19;        /* #141413 page background  */
+      --brand-card: 31 30 27;            /* #1F1E1B cards            */
+      --brand-cardHover: 38 37 34;       /* #262522 card hover       */
+      --brand-border: 51 50 46;          /* #33322E borders          */
+      --brand-accent: 204 120 92;        /* #CC785C terracotta       */
+      --brand-accentHover: 222 133 104;  /* #DE8568                  */
+      --brand-accentMuted: rgba(204, 120, 92, 0.15);
+      --brand-cream: 236 234 226;        /* #ECEAE2 primary text     */
+      --brand-muted: 158 156 148;        /* #9E9C94 secondary text   */
+      --brand-surface: 26 25 22;         /* #1A1916 recessed surface */
+      --field-bg: #181715;               /* input background         */
+      --code-bg: #121211;                /* code/preview panel       */
+      --code-text: #ECEAE2;              /* code/preview text        */
+    }
+
+    /* Theme tokens — light */
+    :root[data-theme="light"] {
+      --brand-charcoal: 245 241 234;     /* #F5F1EA page background  */
+      --brand-card: 255 255 255;         /* #FFFFFF cards            */
+      --brand-cardHover: 240 235 226;    /* #F0EBE2 card hover       */
+      --brand-border: 226 218 203;       /* #E2DACB borders          */
+      --brand-accent: 180 90 58;         /* #B45A3A terracotta       */
+      --brand-accentHover: 160 78 48;    /* #A04E30                  */
+      --brand-accentMuted: rgba(180, 90, 58, 0.12);
+      --brand-cream: 42 37 32;           /* #2A2520 primary text     */
+      --brand-muted: 107 99 88;          /* #6B6358 secondary text   */
+      --brand-surface: 239 234 224;      /* #EFEAE0 recessed surface */
+      --field-bg: #FFFFFF;               /* input background         */
+      --code-bg: #121211;                /* code/preview panel       */
+      --code-text: #ECEAE2;              /* code/preview text        */
+    }
+
     body {
-      background-color: #141413;
-      color: #ECEAE2;
+      background-color: rgb(var(--brand-charcoal));
+      color: rgb(var(--brand-cream));
       font-family: 'Inter', sans-serif;
     }
     .font-serif-anthropic {
       font-family: 'Newsreader', Georgia, serif;
     }
     textarea, input {
-      background-color: #181715;
-      border: 1px solid #33322E;
-      color: #ECEAE2;
+      background-color: var(--field-bg);
+      border: 1px solid rgb(var(--brand-border));
+      color: rgb(var(--brand-cream));
       transition: all 0.2s ease;
     }
     textarea:focus, input:focus {
-      border-color: #CC785C;
+      border-color: rgb(var(--brand-accent));
       outline: none;
-      box-shadow: 0 0 0 1px #CC785C;
+      box-shadow: 0 0 0 1px rgb(var(--brand-accent));
     }
     /* Custom subtle scrollbar */
     ::-webkit-scrollbar {
@@ -67,22 +114,30 @@
       height: 6px;
     }
     ::-webkit-scrollbar-track {
-      background: #141413;
+      background: rgb(var(--brand-charcoal));
     }
     ::-webkit-scrollbar-thumb {
-      background: #33322E;
+      background: rgb(var(--brand-border));
       border-radius: 3px;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #CC785C;
+      background: rgb(var(--brand-accent));
     }
   </style>
+
+  <!-- Apply saved theme before paint to avoid a flash of the wrong theme -->
+  <script>
+    (function () {
+      var t = localStorage.getItem('applied_ai_medtech_theme') === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
 </head>
 
 <body class="min-h-screen flex flex-col antialiased selection:bg-[#CC785C] selection:text-white">
 
   <!-- TOP APP BAR -->
-  <header class="sticky top-0 z-40 bg-[#141413]/90 backdrop-blur-md border-b border-brand-border px-6 py-3.5">
+  <header class="sticky top-0 z-40 bg-brand-charcoal/90 backdrop-blur-md border-b border-brand-border px-6 py-3.5">
     <div class="max-w-6xl mx-auto flex items-center justify-between">
       <!-- Logo & Branding -->
       <div class="flex items-center space-x-3">
@@ -100,6 +155,7 @@
 
       <!-- Live Save Status & Top Actions -->
       <div class="flex items-center space-x-3">
+        <button id="themeToggle" type="button" onclick="toggleTheme()" class="text-xs px-3 py-1.5 rounded border border-brand-border bg-brand-card hover:bg-brand-cardHover text-brand-muted hover:text-brand-cream transition-colors" title="Switch between light and dark mode">☀ Light mode</button>
         <span id="saveStatus" class="hidden sm:inline-flex items-center text-xs text-brand-muted gap-1.5 font-mono">
           <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
           Auto-saved locally
@@ -265,7 +321,7 @@
             <label for="p4_stage_fit" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
               Target Project Lifecycle Stage
             </label>
-            <select id="p4_stage_fit" class="w-full rounded-lg p-2.5 text-xs bg-[#181715] border border-brand-border text-brand-cream">
+            <select id="p4_stage_fit" class="w-full rounded-lg p-2.5 text-xs bg-[var(--field-bg)] border border-brand-border text-brand-cream">
               <option value="Early Feasibility / Rapid Prototyping (5-50 pcs)">Early Feasibility / Rapid Prototyping (5-50 pcs)</option>
               <option value="Design Verification & Validation Testing (V&V)">Design Verification & Validation Testing (V&V)</option>
               <option value="Commercial Ramp / High-Volume Laser Cutting">Commercial Ramp / High-Volume Laser Cutting</option>
@@ -360,7 +416,7 @@
         <button onclick="closeExportModal()" class="text-brand-muted hover:text-brand-cream text-lg font-mono">&times;</button>
       </div>
 
-      <div class="p-6 overflow-y-auto flex-1 font-mono text-xs text-brand-cream/90 bg-[#121211]">
+      <div class="p-6 overflow-y-auto flex-1 font-mono text-xs bg-[var(--code-bg)] text-[var(--code-text)]">
         <pre id="exportContent" class="whitespace-pre-wrap leading-relaxed"></pre>
       </div>
 
@@ -384,6 +440,26 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     const STORAGE_KEY = 'applied_ai_medtech_prospecting_data';
+    const THEME_KEY = 'applied_ai_medtech_theme';
+
+    // ---- Theme handling (dark / light) ----
+    function applyTheme(theme) {
+      const resolved = theme === 'light' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', resolved);
+      const toggle = document.getElementById('themeToggle');
+      if (toggle) {
+        toggle.textContent = resolved === 'light' ? '☾ Dark mode' : '☀ Light mode';
+      }
+    }
+
+    function toggleTheme() {
+      const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    }
+
+    // Re-apply on script load (the head snippet already set it pre-paint; this updates the button label).
+    applyTheme(localStorage.getItem(THEME_KEY) || 'dark');
 
     const fields = [
       'p1_rationale',
