@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Applied AI Labs | MedTech Prospecting Strategy Engine</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Inter & Newsreader for Anthropic-style typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              charcoal: '#141413',
+              card: '#1F1E1B',
+              cardHover: '#262522',
+              border: '#33322E',
+              accent: '#CC785C',     // Anthropic warm terracotta
+              accentHover: '#DE8568',
+              accentMuted: 'rgba(204, 120, 92, 0.15)',
+              cream: '#ECEAE2',
+              muted: '#9E9C94',
+              surface: '#1A1916'
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            serif: ['Newsreader', 'Georgia', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #141413;
+      color: #ECEAE2;
+      font-family: 'Inter', sans-serif;
+    }
+    .font-serif-anthropic {
+      font-family: 'Newsreader', Georgia, serif;
+    }
+    textarea, input {
+      background-color: #181715;
+      border: 1px solid #33322E;
+      color: #ECEAE2;
+      transition: all 0.2s ease;
+    }
+    textarea:focus, input:focus {
+      border-color: #CC785C;
+      outline: none;
+      box-shadow: 0 0 0 1px #CC785C;
+    }
+    /* Custom subtle scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #141413;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #33322E;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #CC785C;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col antialiased selection:bg-[#CC785C] selection:text-white">
+
+  <!-- TOP APP BAR -->
+  <header class="sticky top-0 z-40 bg-[#141413]/90 backdrop-blur-md border-b border-brand-border px-6 py-3.5">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <!-- Logo & Branding -->
+      <div class="flex items-center space-x-3">
+        <div class="w-8 h-8 rounded-lg bg-brand-accent flex items-center justify-center font-bold text-white shadow-sm shadow-brand-accent/30 text-sm">
+          ▲
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold uppercase tracking-widest text-brand-accent">Applied AI Labs</span>
+            <span class="text-[10px] bg-brand-border text-brand-muted px-1.5 py-0.5 rounded font-mono">FRAMEWORK V2.4</span>
+          </div>
+          <h1 class="text-sm font-medium text-brand-cream tracking-tight">MedTech Prospecting Strategy Assessment</h1>
+        </div>
+      </div>
+
+      <!-- Live Save Status & Top Actions -->
+      <div class="flex items-center space-x-3">
+        <span id="saveStatus" class="hidden sm:inline-flex items-center text-xs text-brand-muted gap-1.5 font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          Auto-saved locally
+        </span>
+        <button onclick="prefillExample()" class="text-xs px-3 py-1.5 rounded border border-brand-border bg-brand-card hover:bg-brand-cardHover text-brand-muted hover:text-brand-cream transition-colors">
+          Load Sample Data
+        </button>
+        <button onclick="openExportModal()" class="text-xs px-3.5 py-1.5 rounded bg-brand-accent hover:bg-brand-accentHover text-white font-medium transition-all shadow-sm">
+          Export Strategy Brief
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-6 py-10 space-y-12">
+
+    <!-- INTRO & CONSULTANT CONTEXT PANEL -->
+    <section class="rounded-xl border border-brand-border bg-brand-surface p-7 shadow-xl relative overflow-hidden">
+      <div class="absolute -right-16 -top-16 w-64 h-64 bg-brand-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="max-w-3xl space-y-4">
+        <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-brand-accentMuted text-brand-accent text-xs font-medium">
+          Strategic Calibration Module
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-serif-anthropic text-brand-cream tracking-tight">
+          Moving from "Cold Scraping" to High-Intent Hypotube Prospecting
+        </h2>
+        <p class="text-sm text-brand-muted leading-relaxed">
+          The consultant identified a core reality: generic FDA database lookups and scraping lead to wasted outreach. In complex medical devices (Electrophysiology, Neurovascular, Structural Heart), engineering specifiers and procurement teams have distinct signals.
+        </p>
+        <p class="text-xs text-brand-cream/80 bg-brand-card p-3 rounded-lg border border-brand-border font-mono leading-relaxed">
+          <strong class="text-brand-accent">Consultant Directive:</strong> Complete the 6 foundational pillars below. Your responses will configure our AI targeting pipeline to pinpoint accounts with true budget, active development stages, and verified purchasing authority.
+        </p>
+      </div>
+    </section>
+
+    <!-- FORM SECTIONS -->
+    <form id="strategyForm" class="space-y-8" onsubmit="event.preventDefault();">
+
+      <!-- PILLAR 1: TARGETING DATABASES -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 space-y-5 transition-all hover:border-brand-border/80">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <div class="text-xs font-mono text-brand-accent">PILLAR 01</div>
+            <h3 class="text-lg font-medium text-brand-cream">FDA & Industry Database Source Strategy</h3>
+          </div>
+          <span class="text-xs text-brand-muted bg-brand-surface px-2.5 py-1 rounded border border-brand-border">Targeting Signal</span>
+        </div>
+
+        <div class="bg-brand-surface/60 rounded-lg p-3.5 border border-brand-border text-xs text-brand-muted space-y-1">
+          <p><strong class="text-brand-cream">Consultant's Question:</strong> <em>"There are many FDA databases, so which do you target, and more importantly why do you believe it's the right database?"</em></p>
+        </div>
+
+        <div class="space-y-4 text-sm">
+          <div>
+            <label class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-2">Select Intended Primary Intelligence Sources</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <label class="flex items-center gap-3 p-3 rounded bg-brand-surface border border-brand-border hover:border-brand-accent/50 cursor-pointer">
+                <input type="checkbox" name="p1_sources" value="FDA 510(k) Clearances & Premarket Approval (PMA)" class="accent-[#CC785C] rounded">
+                <span class="text-xs text-brand-cream">FDA 510(k) Clearances / PMA Approvals</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded bg-brand-surface border border-brand-border hover:border-brand-accent/50 cursor-pointer">
+                <input type="checkbox" name="p1_sources" value="FDA Device Registration & Listing Database" class="accent-[#CC785C] rounded">
+                <span class="text-xs text-brand-cream">FDA Device Registration & Listing (GUDID)</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded bg-brand-surface border border-brand-border hover:border-brand-accent/50 cursor-pointer">
+                <input type="checkbox" name="p1_sources" value="ClinicalTrials.gov (Active Catheter/Implant Trials)" class="accent-[#CC785C] rounded">
+                <span class="text-xs text-brand-cream">ClinicalTrials.gov (Active Catheter/Implant Trials)</span>
+              </label>
+              <label class="flex items-center gap-3 p-3 rounded bg-brand-surface border border-brand-border hover:border-brand-accent/50 cursor-pointer">
+                <input type="checkbox" name="p1_sources" value="USPTO MedTech Patent Filings" class="accent-[#CC785C] rounded">
+                <span class="text-xs text-brand-cream">USPTO MedTech Patent Filings (Laser cutting specs)</span>
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label for="p1_rationale" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+              Why do these specific databases indicate an active need for laser-cut hypotubes?
+            </label>
+            <textarea id="p1_rationale" rows="3" class="w-full rounded-lg p-3 text-xs leading-relaxed" placeholder="Explain your rationale. (e.g., We target 510k clearances in EP catheters because cleared devices entering scale production require sub-contracted laser spiral-cut hypotubes for torque transmission...)"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLAR 2: PURCHASING AUTHORITY -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 space-y-5">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <div class="text-xs font-mono text-brand-accent">PILLAR 02</div>
+            <h3 class="text-lg font-medium text-brand-cream">Confirming Purchasing vs. Specifying Authority</h3>
+          </div>
+          <span class="text-xs text-brand-muted bg-brand-surface px-2.5 py-1 rounded border border-brand-border">Persona Validation</span>
+        </div>
+
+        <div class="bg-brand-surface/60 rounded-lg p-3.5 border border-brand-border text-xs text-brand-muted">
+          <p><strong class="text-brand-cream">Consultant's Question:</strong> <em>"How do you confirm an individual has any purchasing authority?"</em></p>
+        </div>
+
+        <div class="space-y-4 text-sm">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label for="p2_technical_titles" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+                Technical Specifiers (Who engineers the hypotube?)
+              </label>
+              <input type="text" id="p2_technical_titles" class="w-full rounded-lg p-2.5 text-xs" placeholder="e.g., Principal Catheter R&D Engineer, VP of Device Development">
+            </div>
+            <div>
+              <label for="p2_commercial_titles" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+                Commercial Buyers (Who issues the PO?)
+              </label>
+              <input type="text" id="p2_commercial_titles" class="w-full rounded-lg p-2.5 text-xs" placeholder="e.g., Director of Global Sourcing, Category Manager - Direct Materials">
+            </div>
+          </div>
+          <div>
+            <label for="p2_validation_method" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+              How will the system confirm they actually possess project or buying authority?
+            </label>
+            <textarea id="p2_validation_method" rows="2" class="w-full rounded-lg p-3 text-xs leading-relaxed" placeholder="e.g., Cross-referencing LinkedIn organizational hierarchy, seniority filters (Director+), and verifying past patents authored by the engineer in steerable catheters."></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLAR 3: BUDGET CONFIRMATION -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 space-y-5">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <div class="text-xs font-mono text-brand-accent">PILLAR 03</div>
+            <h3 class="text-lg font-medium text-brand-cream">Project Funding & Budget Validation</h3>
+          </div>
+          <span class="text-xs text-brand-muted bg-brand-surface px-2.5 py-1 rounded border border-brand-border">Intent Signal</span>
+        </div>
+
+        <div class="bg-brand-surface/60 rounded-lg p-3.5 border border-brand-border text-xs text-brand-muted">
+          <p><strong class="text-brand-cream">Consultant's Question:</strong> <em>"How do you confirm they're actually working on a project where there is budget?"</em></p>
+        </div>
+
+        <div>
+          <label for="p3_budget_indicators" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+            What external indicators prove an active project with allocated budget?
+          </label>
+          <textarea id="p3_budget_indicators" rows="3" class="w-full rounded-lg p-3 text-xs leading-relaxed" placeholder="e.g., Recent Series A/B funding announcement in structural heart, active SBIR grants, aggressive hiring for Catheter Process Technicians, or clinical trial milestone completions."></textarea>
+        </div>
+      </div>
+
+      <!-- PILLAR 4: ACQUISITION STAGE FIT -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 space-y-5">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <div class="text-xs font-mono text-brand-accent">PILLAR 04</div>
+            <h3 class="text-lg font-medium text-brand-cream">Acquisition & Device Lifecycle Stage Match</h3>
+          </div>
+          <span class="text-xs text-brand-muted bg-brand-surface px-2.5 py-1 rounded border border-brand-border">Lifecycle Fit</span>
+        </div>
+
+        <div class="bg-brand-surface/60 rounded-lg p-3.5 border border-brand-border text-xs text-brand-muted">
+          <p><strong class="text-brand-cream">Consultant's Question:</strong> <em>"How do you confirm they are in the stage of acquisition that matches your offerings?"</em></p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="p4_stage_fit" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+              Target Project Lifecycle Stage
+            </label>
+            <select id="p4_stage_fit" class="w-full rounded-lg p-2.5 text-xs bg-[#181715] border border-brand-border text-brand-cream">
+              <option value="Early Feasibility / Rapid Prototyping (5-50 pcs)">Early Feasibility / Rapid Prototyping (5-50 pcs)</option>
+              <option value="Design Verification & Validation Testing (V&V)">Design Verification & Validation Testing (V&V)</option>
+              <option value="Commercial Ramp / High-Volume Laser Cutting">Commercial Ramp / High-Volume Laser Cutting</option>
+              <option value="Supply Chain Dual-Sourcing / Risk Mitigation">Supply Chain Dual-Sourcing / Risk Mitigation</option>
+            </select>
+          </div>
+          <div>
+            <label for="p4_capabilities" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+              Specific Hypotube Specs Offered
+            </label>
+            <input type="text" id="p4_capabilities" class="w-full rounded-lg p-2.5 text-xs" placeholder="e.g., Nitinol / 304SS, OD 0.010'' to 0.120'', pitch & spiral cutting">
+          </div>
+        </div>
+      </div>
+
+      <!-- PILLAR 5: CONTACT DATA ACCURACY -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 space-y-5">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <div class="text-xs font-mono text-brand-accent">PILLAR 05</div>
+            <h3 class="text-lg font-medium text-brand-cream">Contact Information & Hygiene Protocol</h3>
+          </div>
+          <span class="text-xs text-brand-muted bg-brand-surface px-2.5 py-1 rounded border border-brand-border">Deliverability</span>
+        </div>
+
+        <div class="bg-brand-surface/60 rounded-lg p-3.5 border border-brand-border text-xs text-brand-muted">
+          <p><strong class="text-brand-cream">Consultant's Question:</strong> <em>"How do you confirm any contact information is accurate?"</em></p>
+        </div>
+
+        <div>
+          <label for="p5_hygiene" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+            Verification Stack & Multi-Signal Validation
+          </label>
+          <textarea id="p5_hygiene" rows="2" class="w-full rounded-lg p-3 text-xs leading-relaxed" placeholder="e.g., Real-time SMTP ping validation, ZeroBounce check, matching email syntax against company domain MX records, verifying active LinkedIn posting status."></textarea>
+        </div>
+      </div>
+
+      <!-- PILLAR 6: AI-POWERED PERSONALIZED OUTREACH -->
+      <div class="rounded-xl border border-brand-border bg-brand-card p-6 space-y-5">
+        <div class="flex items-start justify-between">
+          <div class="space-y-1">
+            <div class="text-xs font-mono text-brand-accent">PILLAR 06</div>
+            <h3 class="text-lg font-medium text-brand-cream">AI Creative Synthesis & Outreach Strategy</h3>
+          </div>
+          <span class="text-xs text-brand-muted bg-brand-surface px-2.5 py-1 rounded border border-brand-border">Email Generation</span>
+        </div>
+
+        <div class="bg-brand-surface/60 rounded-lg p-3.5 border border-brand-border text-xs text-brand-muted">
+          <p><strong class="text-brand-cream">Consultant's Challenge:</strong> <em>"How AI can enhance that creativity... fold your knowledge into targeting, extracting, and enriching."</em></p>
+        </div>
+
+        <div>
+          <label for="p6_ai_prompt_hook" class="block text-xs font-medium text-brand-muted uppercase tracking-wider mb-1.5">
+            What unique value proposition should AI highlight in the generated introductory email?
+          </label>
+          <textarea id="p6_ai_prompt_hook" rows="3" class="w-full rounded-lg p-3 text-xs leading-relaxed" placeholder="e.g., Fast turnaround micro-machining lead times (48-hr prototype slots), 100% optical inspection on spiral cuts, and sub-assembly catheter capabilities..."></textarea>
+        </div>
+      </div>
+
+      <!-- BOTTOM CONTROL BAR -->
+      <div class="pt-6 border-t border-brand-border flex flex-col sm:flex-row items-center justify-between gap-4">
+        <button type="button" onclick="confirmReset()" class="text-xs text-rose-400/80 hover:text-rose-300 font-medium px-4 py-2 rounded border border-rose-900/40 hover:bg-rose-950/30 transition-colors">
+          Clear All Collected Information
+        </button>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <button type="button" onclick="exportData('json')" class="flex-1 sm:flex-none text-xs px-4 py-2.5 rounded bg-brand-surface border border-brand-border hover:border-brand-cream/40 text-brand-cream font-medium transition-colors">
+            Download JSON
+          </button>
+          <button type="button" onclick="openExportModal()" class="flex-1 sm:flex-none text-xs px-5 py-2.5 rounded bg-brand-accent hover:bg-brand-accentHover text-white font-medium transition-all shadow-md shadow-brand-accent/20">
+            View & Copy Strategy Brief
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-brand-border py-8 text-center text-xs text-brand-muted">
+    <p>Powered by <strong class="text-brand-cream">Applied AI Labs</strong> &bull; MedTech Commercial Intelligence Architecture</p>
+  </footer>
+
+  <!-- EXPORT / PREVIEW MODAL -->
+  <div id="exportModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-brand-card border border-brand-border rounded-xl max-w-3xl w-full max-h-[85vh] flex flex-col shadow-2xl">
+      <div class="px-6 py-4 border-b border-brand-border flex items-center justify-between">
+        <div>
+          <h3 class="text-sm font-medium text-brand-cream">Client Strategy Brief Ready for Consultant</h3>
+          <p class="text-xs text-brand-muted">Copy to clipboard or download to send directly to your Applied AI Labs consultant.</p>
+        </div>
+        <button onclick="closeExportModal()" class="text-brand-muted hover:text-brand-cream text-lg font-mono">&times;</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-1 font-mono text-xs text-brand-cream/90 bg-[#121211]">
+        <pre id="exportContent" class="whitespace-pre-wrap leading-relaxed"></pre>
+      </div>
+
+      <div class="px-6 py-4 border-t border-brand-border flex items-center justify-end gap-3 bg-brand-surface">
+        <button onclick="copyToClipboard()" id="copyBtn" class="text-xs px-4 py-2 rounded bg-brand-accent hover:bg-brand-accentHover text-white font-medium transition-all">
+          Copy Text to Clipboard
+        </button>
+        <button onclick="exportData('md')" class="text-xs px-4 py-2 rounded border border-brand-border bg-brand-card hover:bg-brand-cardHover text-brand-cream">
+          Download .MD File
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-brand-card border border-brand-accent text-brand-cream text-xs px-4 py-3 rounded-lg shadow-xl flex items-center gap-2">
+    <span class="text-brand-accent">✓</span>
+    <span id="toastMsg">Changes saved</span>
+  </div>
+
+  <!-- JAVASCRIPT LOGIC -->
+  <script>
+    const STORAGE_KEY = 'applied_ai_medtech_prospecting_data';
+
+    const fields = [
+      'p1_rationale',
+      'p2_technical_titles',
+      'p2_commercial_titles',
+      'p2_validation_method',
+      'p3_budget_indicators',
+      'p4_stage_fit',
+      'p4_capabilities',
+      'p5_hygiene',
+      'p6_ai_prompt_hook'
+    ];
+
+    // Load stored inputs on initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      loadSavedData();
+      attachAutoSave();
+    });
+
+    function getFormData() {
+      const data = {};
+      fields.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) data[id] = el.value;
+      });
+
+      // Checkboxes for database sources
+      const sources = [];
+      document.querySelectorAll("input[name='p1_sources']:checked").forEach(cb => {
+        sources.push(cb.value);
+      });
+      data.p1_sources = sources;
+      data.lastUpdated = new Date().toISOString();
+      return data;
+    }
+
+    function attachAutoSave() {
+      const form = document.getElementById('strategyForm');
+      form.addEventListener('input', () => {
+        saveData();
+      });
+      form.addEventListener('change', () => {
+        saveData();
+      });
+    }
+
+    function saveData() {
+      const data = getFormData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      showSaveIndicator();
+    }
+
+    function loadSavedData() {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        fields.forEach(id => {
+          if (data[id] && document.getElementById(id)) {
+            document.getElementById(id).value = data[id];
+          }
+        });
+        if (Array.isArray(data.p1_sources)) {
+          document.querySelectorAll("input[name='p1_sources']").forEach(cb => {
+            cb.checked = data.p1_sources.includes(cb.value);
+          });
+        }
+      } catch (e) {
+        console.error("Failed to restore saved data", e);
+      }
+    }
+
+    function showSaveIndicator() {
+      const status = document.getElementById('saveStatus');
+      status.classList.remove('hidden');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      setTimeout(() => {
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    function prefillExample() {
+      document.querySelectorAll("input[name='p1_sources']").forEach((cb, idx) => {
+        cb.checked = idx === 0 || idx === 1;
+      });
+      document.getElementById('p1_rationale').value = "FDA 510(k) clearances in Electrophysiology & Neurovascular (specifically steerable introducer sheaths & microcatheters) indicate devices moving into pilot-scale commercial manufacturing where laser cut hypotubes replace standard braided shafts.";
+      document.getElementById('p2_technical_titles').value = "Principal Catheter R&D Engineer, Staff Device Design Engineer";
+      document.getElementById('p2_commercial_titles').value = "Strategic Sourcing Manager - Interventional Direct Materials";
+      document.getElementById('p2_validation_method').value = "Verify patent ownership on Google Patents for catheter deflection mechanisms + LinkedIn Director+ seniority.";
+      document.getElementById('p3_budget_indicators').value = "Company received Series B ($15M+) in last 12 months, or FDA 510(k) approval granted within past 60 days signaling commercial ramp budget.";
+      document.getElementById('p4_stage_fit').value = "Design Verification & Validation Testing (V&V)";
+      document.getElementById('p4_capabilities').value = "304V & Nitinol hypotubes, OD 0.012'' to 0.095'', spiral pitch & interrupted continuous cuts with 5-day rapid turns.";
+      document.getElementById('p5_hygiene').value = "Multi-tier SMTP ping check via ZeroBounce + LinkedIn Sales Navigator active profile verification.";
+      document.getElementById('p6_ai_prompt_hook').value = "Highlight our proprietary laser cut edge quality (burr-free inner lumen ID), zero-tooling setup charges for first 10 prototype units, and certified ISO 13485 cleanroom packaging.";
+      
+      saveData();
+      showToast("Sample MedTech strategy brief loaded!");
+    }
+
+    function confirmReset() {
+      if (confirm("Are you sure you want to clear all collected information? This cannot be undone.")) {
+        localStorage.removeItem(STORAGE_KEY);
+        document.getElementById('strategyForm').reset();
+        showToast("All data cleared successfully.");
+      }
+    }
+
+    function generateMarkdownBrief() {
+      const d = getFormData();
+      return `# Applied AI Labs: Prospecting Strategy Brief
+**Category:** MedTech / Laser-Cut Hypotubes
+**Generated:** ${new Date().toLocaleString()}
+
+---
+
+### 1. FDA & Intelligence Source Strategy
+- **Selected Databases:** ${d.p1_sources.length > 0 ? d.p1_sources.join(', ') : 'None specified'}
+- **Targeting Rationale:**
+${d.p1_rationale || 'N/A'}
+
+---
+
+### 2. Authority & Persona Targeting
+- **Technical Specifiers (Engineers):** ${d.p2_technical_titles || 'N/A'}
+- **Commercial Buyers (Sourcing):** ${d.p2_commercial_titles || 'N/A'}
+- **Validation Protocol:** 
+${d.p2_validation_method || 'N/A'}
+
+---
+
+### 3. Budget & Commercial Intent Signals
+- **Project Budget Signals:**
+${d.p3_budget_indicators || 'N/A'}
+
+---
+
+### 4. Stage & Technical Fit
+- **Target Device Lifecycle:** ${d.p4_stage_fit}
+- **Hypotube Offering Specs:** ${d.p4_capabilities || 'N/A'}
+
+---
+
+### 5. Contact Verification & Hygiene
+- **Deliverability Validation Stack:**
+${d.p5_hygiene || 'N/A'}
+
+---
+
+### 6. AI Email Synthesis Hook
+- **Value Proposition Prompt Input:**
+${d.p6_ai_prompt_hook || 'N/A'}
+
+---
+*Ready for submission to Applied AI Labs pipeline architect.*`;
+    }
+
+    function openExportModal() {
+      const md = generateMarkdownBrief();
+      document.getElementById('exportContent').innerText = md;
+      document.getElementById('exportModal').classList.remove('hidden');
+    }
+
+    function closeExportModal() {
+      document.getElementById('exportModal').classList.add('hidden');
+    }
+
+    function copyToClipboard() {
+      const text = document.getElementById('exportContent').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('copyBtn');
+        btn.innerText = "Copied!";
+        setTimeout(() => { btn.innerText = "Copy Text to Clipboard"; }, 2000);
+        showToast("Brief copied to clipboard!");
+      });
+    }
+
+    function exportData(format) {
+      const data = getFormData();
+      let blob, filename;
+
+      if (format === 'json') {
+        blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        filename = 'AppliedAI_Prospecting_Brief.json';
+      } else {
+        const md = generateMarkdownBrief();
+        blob = new Blob([md], { type: 'text/markdown' });
+        filename = 'AppliedAI_Prospecting_Brief.md';
+      }
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast(`Exported ${filename}`);
+    }
+  </script>
+</body>
+</html>

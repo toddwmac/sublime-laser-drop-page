@@ -1,12 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Applied AI Labs — Prospecting System Builder</title>
 
   <style>
-    :root {
+    :root,
+    :root[data-theme="dark"] {
       --bg: #151311;
       --bg-soft: #1b1815;
       --panel: #211e1a;
@@ -14,15 +15,51 @@
       --panel-3: #312a24;
       --line: #40372f;
       --line-soft: #342e28;
-      --text: #f2ece4;
-      --muted: #b9ada2;
-      --faint: #8c8076;
+      --text: #ffffff;
+      --muted: #cabfb4;
+      --faint: #9c9086;
+      --input-bg: rgba(20, 18, 16, .75);
+      --input-bg-soft: rgba(20, 18, 16, .48);
+      --section-bg: rgba(33, 30, 26, .78);
+      --topbar-bg: rgba(21, 19, 17, .91);
+      --card-grad: linear-gradient(145deg, rgba(41, 36, 31, .9), rgba(33, 30, 26, .8));
+      --placeholder: #807468;
+      --preview-bg: #191714;
+      --preview-text: #cabfb4;
       --accent: #d97757;
       --accent-light: #efa17e;
       --green: #9cc8ac;
       --yellow: #e1bd78;
       --red: #df8d86;
       --shadow: 0 18px 55px rgba(0, 0, 0, .22);
+      --radius: 16px;
+    }
+
+    :root[data-theme="light"] {
+      --bg: #f4efe7;
+      --bg-soft: #efe9df;
+      --panel: #ffffff;
+      --panel-2: #f7f2ea;
+      --panel-3: #efe9df;
+      --line: #ddd3c4;
+      --line-soft: #e7ddcf;
+      --text: #2a2420;
+      --muted: #5f554b;
+      --faint: #8c8276;
+      --input-bg: #ffffff;
+      --input-bg-soft: rgba(42, 36, 32, .04);
+      --section-bg: #ffffff;
+      --topbar-bg: rgba(244, 239, 231, .92);
+      --card-grad: linear-gradient(145deg, #ffffff, #f1ebe1);
+      --placeholder: #9a8f81;
+      --preview-bg: #1d1916;
+      --preview-text: #cabfb4;
+      --accent: #d97757;
+      --accent-light: #b95c3a;
+      --green: #4e8f6c;
+      --yellow: #a9762a;
+      --red: #c0524b;
+      --shadow: 0 18px 50px rgba(80, 60, 40, .12);
       --radius: 16px;
     }
 
@@ -788,6 +825,54 @@
         margin-top: 13px;
       }
     }
+
+    /* ============================================================
+       Larger type scale + theme-aware surfaces (appended last so
+       these declarations win over the defaults above)
+       ============================================================ */
+    body { font-size: 16px; }
+    .brand strong { font-size: 15px; }
+    .brand span { font-size: 13px; }
+    .save-status { font-size: 13px; }
+    .btn { font-size: 13px; }
+    .sidebar-heading { font-size: 12px; }
+    .section-nav a { font-size: 14px; }
+    .section-nav a span:first-child { font-size: 12px; }
+    .nav-status { font-size: 13px; }
+    .progress-label { font-size: 13px; }
+    .privacy-note { font-size: 12px; }
+    .eyebrow { font-size: 12px; }
+    .hero-copy { font-size: 18px; }
+    .hero-note { font-size: 13px; }
+    .gate-number { font-size: 12px; }
+    .gate h3 { font-size: 16px; }
+    .gate p { font-size: 13px; }
+    .section-heading h2 { font-size: 32px; }
+    .section-heading p { font-size: 15px; }
+    .section-tag { font-size: 12px; }
+    .callout { font-size: 14px; }
+    label, .field-label { font-size: 14px; }
+    label small, .field-label small { font-size: 12px; }
+    input, textarea, select { font-size: 15px; }
+    input, select { height: 42px; }
+    .choice span, .source-choice span { font-size: 13px; }
+    .choice strong, .source-choice strong { font-size: 14px; }
+    .source-choice small { font-size: 12px; }
+    .subheading { font-size: 13px; }
+    table { font-size: 13px; }
+    th { font-size: 12px; }
+    td input, td select { font-size: 12px; height: 36px; }
+    .preview { font-size: 13px; }
+    .footer-note { font-size: 13px; }
+
+    /* Theme-aware surfaces + the (non-white) sample text block */
+    .topbar { background: var(--topbar-bg); }
+    .progress-card { background: var(--card-grad); }
+    .section { background: var(--section-bg); }
+    input, textarea, select { background: var(--input-bg); }
+    .choice, .source-choice { background: var(--input-bg-soft); }
+    input::placeholder, textarea::placeholder { color: var(--placeholder); }
+    .preview { color: var(--preview-text); background: var(--preview-bg); }
   </style>
 </head>
 
@@ -804,6 +889,7 @@
 
       <div class="top-actions">
         <span class="save-status" id="saveStatus">Local only · changes auto-save</span>
+        <button class="btn ghost" id="themeToggle" type="button" title="Switch between light and dark mode">☀ Light mode</button>
         <button class="btn ghost" id="importButton" type="button">Import JSON</button>
         <button class="btn" id="exportJsonButton" type="button">JSON backup</button>
         <button class="btn primary" id="exportBriefButton" type="button">Export handoff</button>
@@ -845,7 +931,7 @@
             <span>09</span><span>AI workflow</span><b class="nav-status" data-nav-status="workflow">•</b>
           </a>
           <a href="#handoff" data-nav-section="handoff">
-            <span>10</span><span>Consultant handoff</span><b class="nav-status" data-nav-status="handoff">•</b>
+            <span>10</span><span>System handoff</span><b class="nav-status" data-nav-status="handoff">•</b>
           </a>
         </nav>
 
@@ -863,7 +949,7 @@
         </div>
 
         <div class="privacy-note">
-          Local-first storage. The brief remains in this browser until you export it. Browser local storage is not encrypted; use the export controls when sending the brief to the consultant.
+          Local-first storage. The brief remains in this browser until you export it. Browser local storage is not encrypted; use the export controls when sending the brief to the system.
         </div>
       </aside>
 
@@ -872,7 +958,7 @@
           <div class="eyebrow">Applied AI Labs · Prospecting intelligence</div>
           <h1>From database search to defensible outreach.</h1>
           <p class="hero-copy">
-            The consultant’s response identifies the right problem: an FDA record can reveal a company or device program, but it does not prove purchasing authority, budget, timing, supplier fit, or contact accuracy. This brief builder turns those concerns into explicit evidence gates.
+            The system’s response identifies the right problem: an FDA record can reveal a company or device program, but it does not prove purchasing authority, budget, timing, supplier fit, or contact accuracy. This brief builder turns those concerns into explicit evidence gates.
           </p>
           <div class="hero-note">
             Treat every regulatory or market signal as a lead—not as proof of buying intent.
@@ -887,7 +973,7 @@
               <div>
                 <div class="eyebrow">01 · Foundations</div>
                 <h2>Define the mission</h2>
-                <p>Give the consultant enough context to distinguish a useful prospect from a broad list of medical device companies.</p>
+                <p>Give the system enough context to distinguish a useful prospect from a broad list of medical device companies.</p>
               </div>
               <div class="section-tag">Evidence gate</div>
             </div>
@@ -949,7 +1035,7 @@
 
               <div class="field full">
                 <label>Internal notes or assumptions</label>
-                <textarea data-path="meta.notes" placeholder="What has already been tried? What must the consultant avoid repeating?"></textarea>
+                <textarea data-path="meta.notes" placeholder="What has already been tried? What must the system avoid repeating?"></textarea>
               </div>
             </div>
           </section>
@@ -1019,7 +1105,7 @@
             </div>
 
             <div class="callout">
-              <strong>Consultant’s question:</strong> There are many FDA databases. Which ones should be targeted, and why are they the right sources for this search? Select sources based on the signal they provide—not because they are merely available.
+              <strong>System’s question:</strong> There are many FDA databases. Which ones should be targeted, and why are they the right sources for this search? Select sources based on the signal they provide—not because they are merely available.
             </div>
 
             <div class="source-grid">
@@ -1112,7 +1198,7 @@
             </div>
 
             <div class="callout">
-              <strong>Consultant’s question:</strong> How do you confirm that an individual has purchasing authority? A title alone is not enough. The system should distinguish economic buyers, technical evaluators, supplier-quality stakeholders, and useful internal champions.
+              <strong>System’s question:</strong> How do you confirm that an individual has purchasing authority? A title alone is not enough. The system should distinguish economic buyers, technical evaluators, supplier-quality stakeholders, and useful internal champions.
             </div>
 
             <div class="grid">
@@ -1158,7 +1244,7 @@
             </div>
 
             <div class="callout">
-              <strong>Consultant’s question:</strong> How do you confirm that the company is working on a project with budget? Public data rarely proves budget directly. Use observable proxies, record their source and date, and distinguish “unknown” from “confirmed.”
+              <strong>System’s question:</strong> How do you confirm that the company is working on a project with budget? Public data rarely proves budget directly. Use observable proxies, record their source and date, and distinguish “unknown” from “confirmed.”
             </div>
 
             <div class="grid">
@@ -1202,7 +1288,7 @@
             </div>
 
             <div class="callout">
-              <strong>Consultant’s question:</strong> How do you confirm that the opportunity is in a stage that matches the offering? A company can be relevant but too early, already locked into a supplier, or too late for a new component source.
+              <strong>System’s question:</strong> How do you confirm that the opportunity is in a stage that matches the offering? A company can be relevant but too early, already locked into a supplier, or too late for a new component source.
             </div>
 
             <div class="grid">
@@ -1260,7 +1346,7 @@
             </div>
 
             <div class="callout">
-              <strong>Consultant’s question:</strong> How do you confirm that contact information is accurate? Every contact should have a role source, a company association, a verification date, and a confidence level. Do not treat an inferred email address as verified.
+              <strong>System’s question:</strong> How do you confirm that contact information is accurate? Every contact should have a role source, a company association, a verification date, and a confidence level. Do not treat an inferred email address as verified.
             </div>
 
             <div class="grid">
@@ -1355,7 +1441,7 @@
             <div class="grid">
               <div class="field full">
                 <label>Targeting → identifying → extracting → enriching → qualifying steps</label>
-                <textarea data-path="workflow.steps" placeholder="Describe the intended workflow from source selection through consultant handoff. Include who owns each step."></textarea>
+                <textarea data-path="workflow.steps" placeholder="Describe the intended workflow from source selection through system handoff. Include who owns each step."></textarea>
               </div>
 
               <div class="field">
@@ -1374,7 +1460,7 @@
               </div>
 
               <div class="field">
-                <label>Consultant handoff format</label>
+                <label>System handoff format</label>
                 <textarea data-path="workflow.handoff" placeholder="Example: Markdown brief plus CSV account list, with source URLs, evidence dates, qualification notes, and suggested first-contact angle."></textarea>
               </div>
 
@@ -1389,7 +1475,7 @@
             <div class="section-heading">
               <div>
                 <div class="eyebrow">10 · Outreach preparation</div>
-                <h2>Give the consultant a relevant opening</h2>
+                <h2>Give the system a relevant opening</h2>
                 <p>These fields provide the evidence and hypotheses needed to draft a specific introductory email without making unsupported claims.</p>
               </div>
               <div class="section-tag">Email inputs</div>
@@ -1442,6 +1528,24 @@
 
   <script>
     const STORAGE_KEY = "applied-ai-labs-hypotube-prospecting-brief-v1";
+    const THEME_KEY = "applied-ai-labs-brief-theme";
+
+    function applyTheme(theme) {
+      const resolved = theme === "light" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", resolved);
+      const toggle = document.getElementById("themeToggle");
+      if (toggle) {
+        toggle.textContent = resolved === "light" ? "☾ Dark mode" : "☀ Light mode";
+      }
+    }
+
+    applyTheme(localStorage.getItem(THEME_KEY) || "dark");
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    });
 
     const defaultState = {
       meta: {
@@ -1950,7 +2054,7 @@ ${candidates}
 - **AI tasks:** ${valueOrDash(state.workflow.aiTasks)}
 - **Human verification tasks:** ${valueOrDash(state.workflow.humanChecks)}
 - **Scoring or ranking logic:** ${valueOrDash(state.workflow.scoring)}
-- **Consultant handoff format:** ${valueOrDash(state.workflow.handoff)}
+- **System handoff format:** ${valueOrDash(state.workflow.handoff)}
 - **AI guardrails:** ${valueOrDash(state.workflow.guardrails)}
 
 ## 10. Outreach preparation
