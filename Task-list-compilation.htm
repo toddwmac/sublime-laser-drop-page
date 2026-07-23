@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sublime Laser - Weekly Task Compilation</title>
+<style>
+  /* ===== RESET & BASE ===== */
+  * { box-sizing: border-box; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    color: #1a1a2e;
+    background: #fafafa;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+  }
+
+  /* ===== TYPOGRAPHY ===== */
+  h1 { font-size: 2rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem; }
+  .subtitle { color: #64748b; margin-bottom: 2rem; }
+  h2.week-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #0f172a;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 0.5rem;
+    margin: 2.5rem 0 1rem;
+  }
+  h3 { font-size: 1rem; font-weight: 600; color: #334155; margin: 1.25rem 0 0.5rem; }
+  p { margin: 0.5rem 0; }
+  a { color: #2563eb; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .muted { color: #64748b; font-size: 0.9rem; }
+  .note { background: #fef3c7; border-left: 3px solid #f59e0b; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+  .highlight { background: #fef08a; padding: 0 0.25rem; border-radius: 3px; }
+
+  /* ===== LISTS ===== */
+  ul, ol { margin: 0.5rem 0 0.5rem 1.5rem; }
+  li { margin: 0.35rem 0; }
+  ul ul, ol ol, ul ol, ol ul { margin-top: 0.25rem; margin-bottom: 0.25rem; }
+  .task-list { list-style: none; padding-left: 0; }
+  .task-list li {
+    position: relative;
+    padding-left: 2rem;
+    margin: 0.75rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  .task-list li:last-child { border-bottom: none; }
+  .task-number {
+    position: absolute;
+    left: 0;
+    font-weight: 700;
+    color: #2563eb;
+    min-width: 1.5rem;
+  }
+  .task-duration { color: #64748b; font-size: 0.85rem; font-weight: 500; }
+  .task-desc { margin-top: 0.25rem; padding-left: 1.5rem; color: #334155; }
+  .task-desc ul { margin: 0.5rem 0 0 1rem; }
+  .task-desc li { margin: 0.25rem 0; }
+
+  /* ===== WEEK CARD ===== */
+  .week {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.03);
+    border: 1px solid #e2e8f0;
+    margin-bottom: 1.5rem;
+  }
+  .week-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .week-meta { font-size: 0.85rem; color: #64748b; }
+
+  /* ===== REVIEW SECTION ===== */
+  .review-section { background: #f8fafc; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem; border: 1px solid #e2e8f0; }
+  .review-section h2 { margin-top: 0; border-bottom: none; padding-bottom: 0; }
+
+  /* ===== BILLING NOTE ===== */
+  .billing-note {
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    h1 { font-size: 1.5rem; }
+    .week { padding: 1rem; }
+    .task-list li { padding-left: 1.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Sublime Laser — Weekly Task Compilation</h1>
+  <p class="subtitle">Consulting Engagement — Applied AI Grounding & Skills Program</p>
+</header>
+
+<!-- ===== WEEK 1: REVIEW ===== -->
+<section class="week review-section" id="week-1">
+  <div class="week-header">
+    <h2 class="week-title">Week 1 — Review & Program Overview</h2>
+    <span class="week-meta">Grounding Phase • Friday, Jan 19</span>
+  </div>
+
+  <p><strong>Summary:</strong> Recap of our grounding phase discussion.</p>
+
+  <h3>Program Structure</h3>
+  <ul>
+    <li><strong>Weekly recommended tasks</strong> — Tool setup, AI practice tasks, content to review, questions for you</li>
+    <li><strong>Open channel</strong> — Send questions anytime</li>
+    <li><strong>Weekly 1-hour video call (Fridays)</strong> to:
+      <ul>
+        <li>Answer questions / discuss topics</li>
+        <li>Demo tools & techniques</li>
+        <li>Troubleshoot issues</li>
+      </ul>
+    </li>
+  </ul>
+
+  <p class="muted">After a few sessions, we'll move into focused AI skills: research, productivity, and tactical business applications.</p>
+
+  <div class="billing-note">
+    <strong>Billing:</strong> 1 hour/week @ $300/hr, invoiced monthly with full time tracking. Initial billing fixed at 1 hr/week unless we agree to change.
+  </div>
+</section>
+
+<!-- ===== WEEK 2: SETUP & EXPLORATION ===== -->
+<section class="week" id="week-2">
+  <div class="week-header">
+    <h2 class="week-title">Week 2 — Setup & Exploration</h2>
+    <span class="week-meta">Foundation Tasks</span>
+  </div>
+
+  <ul class="task-list">
+    <li>
+      <span class="task-number">1</span>
+      <strong>Setup General Access Accounts</strong>
+      <span class="task-duration">(~10 min)</span>
+      <div class="task-desc">
+        <p><a href="https://accounts.google.com/signup" target="_blank" rel="noopener">Dedicated Gmail</a> for AI tool signups (or existing low-stakes Gmail)</p>
+        <p><a href="https://signup.live.com" target="_blank" rel="noopener">Microsoft Hotmail/Outlook</a> for Microsoft ecosystem access</p>
+        <p class="muted">Why? Single-click "Sign up with Google" on most AI tools; keeps marketing/spam isolated.</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">2</span>
+      <strong>Configure PC for Quick AI Access</strong>
+      <span class="task-duration">(~2 min)</span>
+      <div class="task-desc">
+        <p>Pin favorites, add browser extensions, or install dedicated apps. Access should be one click — no hunting.</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">3</span>
+      <strong>Get Familiar with AI's Pace</strong>
+      <span class="task-duration">(~10 min)</span>
+      <div class="task-desc">
+        <p>Scan the <a href="https://019c5da5-956e-7aac-be31-47e593b5abaf.arena.site/" target="_blank" rel="noopener">AI Revolution web report</a> — note unfamiliar terms/concepts for context.</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">4</span>
+      <strong>Explore Popular & Emerging Chatbots</strong>
+      <div class="task-desc">
+        <p>Browse <a href="https://centerforappliedailabs.github.io/resources/bot-hub-AppliedAILabs.html" target="_blank" rel="noopener">this curated bot list</a> (big players + niche). Notes save locally. Use Google account from Task 1. Prefer <em>Chat mode</em> over Agent mode for now.</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">5</span>
+      <strong>Compare 2–3 Bots</strong>
+      <div class="task-desc">
+        <p>Run prompt: <code>"Tell me about Sublime Laser in Salt Lake City"</code></p>
+        <p class="muted">Plan to discuss differences you notice.</p>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- ===== WEEK 3: AI AS PARTNER & TOOLS ===== -->
+<section class="week" id="week-3">
+  <div class="week-header">
+    <h2 class="week-title">Week 3 — AI as Partner & Tool Mastery</h2>
+    <span class="week-meta">Mindset Shift & Core Tools</span>
+  </div>
+
+  <ul class="task-list">
+    <li>
+      <span class="task-number">1</span>
+      <strong>Quick Access & Voice-to-Text on Mac</strong>
+      <div class="task-desc">
+        <p>Set up shortcuts and dictation for frictionless AI interaction.</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">2</span>
+      <strong>AI as Partner, Not Just Tool</strong>
+      <div class="task-desc">
+        <p>Read: <a href="https://019d9993-d720-7c5a-8b53-b664111285b9.arena.site/" target="_blank" rel="noopener">From Tool to Partner — Center for Applied AI</a></p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">3</span>
+      <strong>How to Think on Paper (MIT Monk)</strong>
+      <div class="task-desc">
+        <p>Watch: <a href="https://www.youtube.com/watch?v=BDde5vwj83E" target="_blank" rel="noopener">The Notebook System That Saved My Brain</a> <span class="muted">(and more — don't get overwhelmed)</span></p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">4</span>
+      <strong>Chatbot Feature Comparison</strong>
+      <div class="task-desc">
+        <p><a href="https://centerforappliedailabs.github.io/resources/ai-feature-comparison-AppliedAILabs.html" target="_blank" rel="noopener">AI Chatbot Feature Comparison</a></p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">5</span>
+      <strong>LLM Model Comparisons / Benchmarks</strong>
+      <div class="task-desc">
+        <ul>
+          <li><a href="https://huggingface.co/" target="_blank" rel="noopener">Hugging Face — AI community hub</a></li>
+          <li><a href="https://llm-stats.com/" target="_blank" rel="noopener">LLM Stats — 300+ models ranked by intelligence, speed, price</a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">6</span>
+      <strong>Google NotebookLM Deep Dive</strong>
+      <div class="task-desc">
+        <p><a href="https://arena.ai/c/019f0520-f9a5-7d24-896a-48927c5812f0" target="_blank" rel="noopener">Todd's Sublime Guide to NotebookLM</a> | <a href="https://notebooklm.google.com/" target="_blank" rel="noopener">NotebookLM direct</a></p>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- ===== WEEK 4: PROMPTING & TRAINING HUBS ===== -->
+<section class="week" id="week-4">
+  <div class="week-header">
+    <h2 class="week-title">Week 4 — Prompting Mastery & Training Hubs</h2>
+    <span class="week-meta">Resources & Next Steps</span>
+  </div>
+
+  <p>Links from our session (some shown, some bonus):</p>
+
+  <ul class="task-list">
+    <li>
+      <span class="task-number">1</span>
+      <strong>PromptForge: 2026 Best Practices</strong>
+      <div class="task-desc">
+        <p><a href="https://centerforappliedailabs.github.io/resources/prompt-best-practices-grok-AppliedAILabs.html#practices" target="_blank" rel="noopener">PromptForge</a> — User-friendly, hosted by me, no risk</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">2</span>
+      <strong>LLM Prompt Strategies Web App</strong>
+      <div class="task-desc">
+        <p><a href="https://staging-llm-prompt-strategies-web-app-5p2i.frontend.encr.app/" target="_blank" rel="noopener">Prompt Strategies App</a> — More technical, cloud-hosted, no risk</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">3</span>
+      <strong>AI Prompt Manager</strong>
+      <div class="task-desc">
+        <p><a href="https://toddwmac.github.io/qwen-ai-prompt-manager/" target="_blank" rel="noopener">Prompt Manager</a> — Local storage, built by me, no risk</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">4</span>
+      <strong>Sublime Laser AI Training Hub (a)</strong>
+      <div class="task-desc">
+        <p><a href="https://centerforappliedailabs.github.io/resources/training-sublime-hface-minimax-AppliedAILabs.html" target="_blank" rel="noopener">HTML-based hub</a> — Local storage, no risk</p>
+      </div>
+    </li>
+
+    <li>
+      <span class="task-number">5</span>
+      <strong>Sublime Laser AI Training Hub (b)</strong>
+      <div class="task-desc">
+        <p><a href="https://sublime-laser-ai-training.vercel.app/" target="_blank" rel="noopener">Vercel-hosted hub</a> — Vibe-coded by me, local storage, no risk</p>
+      </div>
+    </li>
+  </ul>
+
+  <div class="note">
+    <strong>Confidential:</strong> GEO report for EDU board attached — <em>please do not distribute.</em>
+  </div>
+
+  <div class="note" style="background:#dbeafe; border-left-color:#2563eb;">
+    <strong>Next Week:</strong> We'll build out a <span class="highlight">scenario you define</span>. Be specific but mindful of time. Practical & tactical relative to your business. Start tight — we can always expand.
+  </div>
+</section>
+
+<!-- ===== TEMPLATE FOR ADDING NEW WEEKS ===== -->
+<!--
+<section class="week" id="week-5">
+  <div class="week-header">
+    <h2 class="week-title">Week 5 — Your Title Here</h2>
+    <span class="week-meta">Optional subtitle / date</span>
+  </div>
+
+  <ul class="task-list">
+    <li>
+      <span class="task-number">1</span>
+      <strong>Task Title</strong>
+      <span class="task-duration">(~X min)</span>
+      <div class="task-desc">
+        <p>Description with <a href="#">links</a>.</p>
+      </div>
+    </li>
+    <li>
+      <span class="task-number">2</span>
+      <strong>Another Task</strong>
+      <div class="task-desc">
+        <p>Description.</p>
+      </div>
+    </li>
+  </ul>
+</section>
+-->
+
+<footer style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid #e2e8f0; text-align:center; color:#64748b; font-size:0.85rem;">
+  <p>Sublime Laser × Applied AI Labs — Weekly Task Compilation</p>
+  <p>To add a week: copy the template block above, increment the week number, and fill in tasks.</p>
+</footer>
+
+</body>
+</html>
