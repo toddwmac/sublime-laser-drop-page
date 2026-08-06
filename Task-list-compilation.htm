@@ -423,6 +423,178 @@
 </section>
 -->
 
+<!-- ===== WEEK 6: THE ART OF PROSPECTING ===== -->
+<section class="week" id="week-6">
+  <div class="week-header">
+    <h2 class="week-title">Week 6 — The Art of Prospecting</h2>
+    <span class="week-meta">Adding New Super Power</span>
+  </div>
+
+  <p>I know that was a firehose, but hopefully you got a sense of how this approach might be useful and how we might grab some incremental value.</p>
+  <p>Below are a few of the sample Lead Research AI Prompts that I showed you (Endotheia, Nissha, CenterPoint).</p>
+
+  <h3>Tasks for This Week:</h3>
+  <ul class="task-list">
+    <li>
+      <span class="task-number">1</span>
+      <strong>Review and run the prompts, and see if the output was what you expected</strong>
+      <div class="task-desc">
+        <p>How would you change the prompt? (context, output request, formatting)</p>
+        <p>How would you combine them?</p>
+      </div>
+    </li>
+    <li>
+      <span class="task-number">2</span>
+      <strong>Run the same prompt through multiple models and compare the output</strong>
+      <div class="task-desc">
+        <p>Test across different chatbots and observe variations in response quality and style.</p>
+      </div>
+    </li>
+    <li>
+      <span class="task-number">3</span>
+      <strong>Ask AI to build a prompt with just the context and your intention</strong>
+      <div class="task-desc">
+        <p>This is called <em>meta-prompting</em>, and it is a superpower. The example below adds some reasoning transparency and grounding. More on advanced prompting later.</p>
+        <p><strong>Example:</strong></p>
+        <blockquote style="background: #f1f5f9; padding: 0.75rem 1rem; border-left: 3px solid #3b82f6; margin: 0.5rem 0; border-radius: 0 4px 4px 0; font-size: 0.9rem;">
+          I'm sales research assistant for Sublime Laser, a US contract manufacturer specializing in femtosecond (femto) and ultrafast laser micro-machining for medical devices — especially vascular & structural-heart work in Nitinol, precious metals, cobalt-chromium, titanium, stainless steel, and polymer tubes and components (ISO 13485).<br><br>
+          I am researching EndoTheia, Inc for potential sales opportunities.<br><br>
+          Using information from their website, and in particular their news posts (<a href="https://www.endotheia.com/news" target="_blank" rel="noopener">News | EndoTheia, Inc.</a>) I want you to build me a prompt that I can submit to you or any other LLM, that will generate a rich set of sales research.<br><br>
+          Before you answer, outline your approach and confirm your sources.
+        </blockquote>
+        <p>When I did the exercise above, and used the prompt it gave me in Copilot, <a href="https://copilot.microsoft.com/shares/pages/QZLzezmqzDGPwn7Ygg63j" target="_blank" rel="noopener">here is the result</a> (definitely check this out).</p>
+      </div>
+    </li>
+  </ul>
+
+  <p>Give this stuff a try and share your findings.</p>
+  <p>Cheers</p>
+
+  <h3>Sample Lead Research AI Prompts</h3>
+
+  <div style="margin-top: 1rem;">
+    <h4>EndoTheia, Inc --------------------------------------------------------------------------------------------------</h4>
+    <pre style="background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5;"><code>You are a sales research assistant for Sublime Laser, a US contract manufacturer specializing in femtosecond (femto) and ultrafast laser micro-machining for medical devices — especially vascular & structural-heart work in Nitinol, precious metals, cobalt-chromium, titanium, stainless steel, and polymer tubes and components (ISO 13485).
+
+Using public web research, help me prepare outreach for the prospect below. Please:
+1) Confirm or find their current website and HQ location.
+2) Identify the best contact(s) for a contract-manufacturing / laser-processing conversation — typically a VP/Director of R&D, Manufacturing, Engineering, Operations, Quality, or Sourcing/Procurement. Return name, title, and LinkedIn URL when you can find them.
+3) Summarize what medical devices they make and flag any that plausibly involve laser cutting, laser welding, drilling, or micro-machining of metal tubing or components.
+4) Note recent signals — funding, hiring, product launches, FDA clearances, acquisitions.
+5) Propose a specific opening angle tied to laser micro-machining and draft a short first-touch email (3–4 sentences).
+
+═══ PROSPECT ═══
+Company: EndoTheia, Inc.
+Location: Nashville, TN, US
+Data source: FDA registration & establishment listing
+Identifiers: FEI 3022764278
+Contact of record: Christopher Schlichter, (410) 710-9709 (FDA official correspondent)
+
+═══ WHAT THEY MAKE — FDA device listings (1) ═══
+• Dislodger, Stone, Basket, Ureteral, Metal · code FFL · Gastroenterology, Urology · Class 2
+
+═══ OUR FIT SCORE (context only — verify independently) ═══
+Overall 30 = fit 30 + buying intent 0
+Fit reasons: Gastroenterology, Urology manufacturer (endo baskets & stents — laser cut); Device name hit "basket" — laser-cut nitinol; Develops specifications — likely outsources manufacturing; Class II device (precision fabrication)
+
+Return:
+(a) a 2-sentence company summary,
+(b) up to 3 suggested contacts with title + LinkedIn URL
+(c) 2–3 talking points tied to laser micro-machining, and (d) a short first-touch email.
+*[custom instructions here]*
+Flag anything you cannot verify.</code></pre>
+  </div>
+
+  <div style="margin-top: 1.5rem;">
+    <h4>Nissha Medical Technologies (Ohio), Inc. ---------------------------------------------------------------------</h4>
+    <pre style="background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5;"><code>You are a sales research assistant for Sublime Laser, a US contract manufacturer specializing in femtosecond (femto) and ultrafast laser micro-machining for medical devices — especially vascular & structural-heart work in Nitinol, precious metals, cobalt-chromium, titanium, stainless steel, and polymer tubes and components (ISO 13485).
+
+Using public web research, help me prepare outreach for the prospect below. Please:
+1) Confirm or find their current website and HQ location.
+2) Identify the best contact(s) for a contract-manufacturing / laser-processing conversation — typically a VP/Director of R&D, Manufacturing, Engineering, Operations, Quality, or Sourcing/Procurement. Return name, title, and LinkedIn URL when you can find them.
+3) Summarize what medical devices they make and flag any that plausibly involve laser cutting, laser welding, drilling, or micro-machining of metal tubing or components.
+4) Note recent signals — funding, hiring, product launches, FDA clearances, acquisitions.
+5) Propose a specific opening angle tied to laser micro-machining and draft a short first-touch email (3–4 sentences).
+
+═══ PROSPECT ═══
+Company: Nissha Medical Technologies (Ohio), Inc.
+Location: Norwalk, OH, US
+Data source: FDA registration & establishment listing
+Identifiers: FEI 1519132
+Owner/operator: Nissha Medical Technologies (#9106359)
+Contact of record: Jessica Potter, (716) 849-6367 (FDA official correspondent)
+
+═══ WHAT THEY MAKE — FDA device listings (25) ═══
+• Lithotriptor, Electro-Hydraulic · code FFK · Gastroenterology, Urology · Class 2
+• Resectoscope, Working Element · code FDC · Gastroenterology, Urology · Class 2
+• Cystourethroscope · code FBO · Gastroenterology, Urology · Class 2
+• Laparoscope, General & Plastic Surgery · code GCJ · Gastroenterology, Urology · Class 2
+• Surgical Instruments, G-U, Manual (And Accessories) · code KOA · Gastroenterology, Urology · Class 1
+• Scissors, General, Surgical · code LRW · General, Plastic Surgery · Class 1
+• Hysteroscope (And Accessories) · code HIH · Obstetrics/Gynecology · Class 2
+• Ureteroscope And Accessories, Flexible/Rigid · code FGB · Gastroenterology, Urology · Class 2
+• Tube, Tympanostomy · code ETD · Ear, Nose, Throat · Class 2
+• Accessories, Cleaning Brushes, For Endoscope · code MNL · Gastroenterology, Urology · Class 1
+• Evacuator, Gastro-Urology · code KQT · Gastroenterology, Urology · Class 2
+• Culdoscope (And Accessories) · code HEW · Obstetrics/Gynecology · Class 2
+• Lithotriptor, Ultrasonic · code FEO · Gastroenterology, Urology · Class 2
+• Laparoscope, Gynecologic (And Accessories) · code HET · Obstetrics/Gynecology · Class 2
+• Forceps, Biopsy, Non-Electric · code FCL · Gastroenterology, Urology · Class 1
+• Forceps, General & Plastic Surgery · code GEN · General, Plastic Surgery · Class 1
+• Endoscopic Storage Cover · code OCU · Gastroenterology, Urology · Class 2
+• Laryngoscope, Rigid · code CCW · Anesthesiology · Class 1
+• Endoscopic Injection Needle, Gastroenterology-Urology · code FBK · Gastroenterology, Urology · Class 2
+• Dislodger, Stone, Flexible · code FGO · Gastroenterology, Urology · Class 2
+• Cystoscope And Accessories, Flexible/Rigid · code FAJ · Gastroenterology, Urology · Class 2
+• Curette, Suction, Endometrial (And Accessories) · code HHK · Obstetrics/Gynecology · Class 2
+• System, Abortion, Vacuum · code HHI · Obstetrics/Gynecology · Class 2
+• Catheter, Suprapubic (And Accessories) · code KOB · Gastroenterology, Urology · Class 2
+• Electrosurgical, Cutting & Coagulation & Accessories · code GEI · General, Plastic Surgery · Class 2
+
+═══ OUR FIT SCORE (context only — verify independently) ═══
+Overall 45 = fit 45 + buying intent 0
+Fit reasons: General, Plastic Surgery manufacturer (instruments — laser cut/weld/mark); Gastroenterology, Urology manufacturer (endo baskets & stents — laser cut); Ear, Nose, Throat manufacturer (implants & instruments); Device name hit "catheter" — laser tip forming/marking; Device name hit "needle" — laser-cut hypotube; Contract manufacturer — outsources fabrication; Class II device (precision fabrication)
+
+Return:
+(a) a 2-sentence company summary,
+(b) up to 3 suggested contacts with title + LinkedIn URL,
+(c) 2–3 talking points tied to laser micro-machining, and
+(d) a short first-touch email.
+Flag anything you cannot verify.</code></pre>
+  </div>
+
+  <div style="margin-top: 1.5rem;">
+    <h4>CENTERPOINT SYSTEMS LLC -------------------------------------------------------------</h4>
+    <pre style="background: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 6px; overflow-x: auto; font-size: 0.85rem; line-height: 1.5;"><code>You are a sales research assistant for Sublime Laser, a US contract manufacturer specializing in femtosecond (femto) and ultrafast laser micro-machining for medical devices — especially vascular & structural-heart work in Nitinol, precious metals, cobalt-chromium, titanium, stainless steel, and polymer tubes and components (ISO 13485).
+
+Using public web research, help me prepare outreach for the prospect below. Please:
+1) Confirm or find their current website and HQ location.
+2) Identify the best contact(s) for a contract-manufacturing / laser-processing conversation — typically a VP/Director of R&D, Manufacturing, Engineering, Operations, Quality, or Sourcing/Procurement. Return name, title, and LinkedIn URL when you can find them.
+3) Summarize what medical devices they make and flag any that plausibly involve laser cutting, laser welding, drilling, or micro-machining of metal tubing or components.
+4) Note recent signals — funding, hiring, product launches, FDA clearances, acquisitions.
+5) Propose a specific opening angle tied to laser micro-machining and draft a short first-touch email (3–4 sentences).
+
+═══ PROSPECT ═══
+Company: CENTERPOINT SYSTEMS LLC
+Location: West Valley City, UT, US
+Data source: FDA registration & establishment listing
+Identifiers: FEI 3015970743
+Owner/operator: CenterPoint Systems LLC (#10061099)
+Contact of record: Conner Johnson, (877) 848-0828 (FDA official correspondent)
+
+═══ WHAT THEY MAKE — FDA device listings (3) ═══
+• Catheter, Steerable · code DRA · Cardiovascular · Class 2
+• Introducer, Catheter · code DYB · Cardiovascular · Class 2
+• Catheter, Percutaneous · code DQY · Cardiovascular · Class 2
+
+═══ OUR FIT SCORE (context only — verify independently) ═══
+Overall 60 = fit 60 + buying intent 0
+Fit reasons: Cardiovascular manufacturer (stents — classic laser-cut devices); Device name hit "catheter" — laser tip forming/marking; Contract manufacturer — outsources fabrication; Class II device (precision fabrication)
+
+Return: (a) a 2-sentence company summary, (b) up to 3 suggested contacts with title + LinkedIn URL, (c) 2–3 talking points tied to laser micro-machining, and (d) a short first-touch email. Flag anything you cannot verify.</code></pre>
+  </div>
+</section>
+
 <footer style="margin-top:3rem; padding-top:1.5rem; border-top:1px solid #e2e8f0; text-align:center; color:#64748b; font-size:0.85rem;">
   <p>Sublime Laser × Applied AI Labs — Weekly Task Compilation</p>
   <p>To add a week: copy the template block above, increment the week number, and fill in tasks.</p>
